@@ -150,14 +150,14 @@ public class CharacterController2D : MonoBehaviour
             humanForm.enabled = false;
             druidicForms[0].enabled = true;
 
-            animator.SetInteger("druidicTransformation", 1);
+            animator.SetInteger("druidicForm", 1);
         }
         else
         {
             druidicForms[0].enabled = false;
             humanForm.enabled = true;
 
-            animator.SetInteger("druidicTransformation", 0);
+            animator.SetInteger("druidicForm", 0);
         }
     }
 }

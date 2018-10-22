@@ -685,6 +685,8 @@ MonoBehaviour:
   m_GroundCheck: {fileID: 1007352555}
   m_CeilingCheck: {fileID: 1574803884}
   m_CrouchDisableCollider: {fileID: 820667356}
+  m_JumpForce: 0
+  m_AirControl: 0
   humanForm: {fileID: 820667357}
   druidicForms:
   - {fileID: 820667358}
@@ -768,7 +770,7 @@ Animator:
   m_GameObject: {fileID: 820667350}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6fef73fa1c68a1740b8023b0451ca172, type: 2}
+  m_Controller: {fileID: 9100000, guid: 792572e680d863244b86a24794cdbebc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1054,8 +1056,8 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1611635347
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
