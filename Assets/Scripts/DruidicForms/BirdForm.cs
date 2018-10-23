@@ -16,8 +16,8 @@ public class BirdForm: MonoBehaviour
     //Tranforming to this form
     void OnEnable ()
     {
-        controller.setJumpForce(jumpForce);
-        controller.setAirControl(airControl);
+        controller.SetJumpForce(jumpForce);
+        controller.SetAirControl(airControl);
     }
 
     //Getting the inputs

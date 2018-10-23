@@ -26,11 +26,11 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public GameObject transformEffect;
 
-    public void setJumpForce(float x) { m_JumpForce = x; }
-    public void setAirControl(float x) { m_AirControl = x; }
+    public void SetJumpForce(float x) { m_JumpForce = x; }
+    public void SetAirControl(float x) { m_AirControl = x; }
 
-    public bool isOnCeiling() { return m_OnCeiling; }
-    public bool isOnGround() { return m_Grounded; }
+    public bool IsOnCeiling() { return m_OnCeiling; }
+    public bool IsOnGround() { return m_Grounded; }
 
     private void Awake()
 	{
@@ -141,8 +141,10 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(0f, 180f, 0f);
 	}
 
+    // Transforming the player from humanoid to bird and vice-versa
     public void DruidicTransform()
     {
+        //If is humanoid, will transform to a bird
         if (humanForm.enabled)
         {
             humanForm.enabled = false;
@@ -150,6 +152,7 @@ public class PlayerController : MonoBehaviour
 
             animator.SetInteger("druidicForm", 1);
         }
+        //Otherwise, is a bird and will transform back to humanoid
         else
         {
             druidicForms[0].enabled = false;
@@ -158,6 +161,7 @@ public class PlayerController : MonoBehaviour
             animator.SetInteger("druidicForm", 0);
         }
 
+        // Creating the transform effect, and destroying it after it's finished
         GameObject anim = Instantiate(transformEffect, transform.position, Quaternion.identity);
         Destroy(anim, anim.GetComponent<Animator>().runtimeAnimatorController.animationClips[0].length);
     }

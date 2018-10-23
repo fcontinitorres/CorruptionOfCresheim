@@ -17,8 +17,8 @@ public class HumanForm: MonoBehaviour
     bool powerTranform = false;
 
     void OnEnable () {
-        controller.setJumpForce(jumpForce);
-        controller.setAirControl(airControl);
+        controller.SetJumpForce(jumpForce);
+        controller.SetAirControl(airControl);
     }
 
     //Getting the inputs
@@ -64,7 +64,7 @@ public class HumanForm: MonoBehaviour
             //If the player was crouching, it will continue if there's a ceiling above him
             if (checkCeiling)
             {
-                if (controller.isOnCeiling()) crouch = true;
+                if (controller.IsOnCeiling()) crouch = true;
                 else if (crouch == true)
                 {
                     crouch = false;
@@ -73,17 +73,16 @@ public class HumanForm: MonoBehaviour
             }
 
             //If the player isn't grounded, it can't double jump
-            if (jump && !controller.isOnGround())
+            if (jump && !controller.IsOnGround())
             {
+                //Moving it, without double jumping
                 controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, false);
             }
             else
             {
+                //Moving it, jumping or not
                 controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
             }
-
-            // Move our character
-            
         }
     }
 }
