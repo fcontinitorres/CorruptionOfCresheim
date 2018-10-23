@@ -2,39 +2,41 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-	[Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;			// Amount of maxSpeed applied to crouching movement. 1 = 100%
-	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;	// How much to smooth out the movement
-	
-	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
-	[SerializeField] private Transform m_GroundCheck;							// A position marking where to check if the player is grounded.
-	[SerializeField] private Transform m_CeilingCheck;							// A position marking where to check for ceilings
-	[SerializeField] private Collider2D m_CrouchDisableCollider;				// A collider that will be disabled when crouching
+    public PlayerInputManager inputManager;
 
-    const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-	private bool m_Grounded;            // Whether or not the player is grounded.
-    private bool m_OnCeiling;           // Whether or not the player has a ceiling above it
-	const float k_CeilingRadius = .5f; // Radius of the overlap circle to determine if the player can stand up
-	private Rigidbody2D m_Rigidbody2D;
-	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+	[Range(0, 1)] [SerializeField] private float crouchSpeed = .36f;			// Amount of maxSpeed applied to crouching movement. 1 = 100%
+	[Range(0, .3f)] [SerializeField] private float moveSmoothing = .05f;	// How much to smooth out the movement
+	
+	[SerializeField] private LayerMask whatIsGround;							// A mask determining what is ground to the character
+	[SerializeField] private Transform groundPointCheck;						// A position marking where to check if the player is grounded.
+	[SerializeField] private Transform ceilingPointCheck;						// A position marking where to check for ceilings
+	[SerializeField] public Collider2D colliderToDisableWhenCrouch;			// A collider that will be disabled when crouching
+
+    private Vector2 groundCheckSize = new Vector2(0.5f, 0.1f);
+	private bool isGrounded;            // Whether or not the player is grounded.
+    private bool isOnCeiling;           // Whether or not the player has a ceiling above it
+    private Vector2 ceilingCheckSize = new Vector2(0.5f, 0.5f);
+    private Rigidbody2D rigidbody_2D;
+	private bool isFacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 velocity = Vector3.zero;
 
-    public float m_JumpForce;							// Amount of force added when the player jumps.
-    public float m_AirControl;                         // Percentage of control the player has on air.
+    public float jumpForce;							// Amount of force added when the player jumps.
+    public float airControl;                         // Percentage of control the player has on air.
 
     [SerializeField] private HumanForm humanForm;
     [SerializeField] private MonoBehaviour[] druidicForms = new MonoBehaviour[1];
     public Animator animator;
     public GameObject transformEffect;
 
-    public void SetJumpForce(float x) { m_JumpForce = x; }
-    public void SetAirControl(float x) { m_AirControl = x; }
+    public void SetJumpForce(float x) { jumpForce = x; }
+    public void SetAirControl(float x) { airControl = x; }
 
-    public bool IsOnCeiling() { return m_OnCeiling; }
-    public bool IsOnGround() { return m_Grounded; }
+    public bool IsOnCeiling() { return isOnCeiling; }
+    public bool IsOnGround() { return isGrounded; }
 
     private void Awake()
 	{
-		m_Rigidbody2D = GetComponent<Rigidbody2D>();
+		rigidbody_2D = GetComponent<Rigidbody2D>();
 
         //Disabling all druidic forms, including the humanoid
         for (int i = 0; i < druidicForms.Length; i++)
@@ -50,45 +52,54 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		m_Grounded = false;
+		isGrounded = false;
 
 		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
 		// This can be done using layers instead but Sample Assets will not overwrite your project settings.
-		Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
+		Collider2D[] colliders = Physics2D.OverlapBoxAll(groundPointCheck.position, groundCheckSize, 0.0f, whatIsGround);
 		for (int i = 0; i < colliders.Length; i++)
 		{
 			if (colliders[i].gameObject != gameObject)
-				m_Grounded = true;
+				isGrounded = true;
 		}
 
-        m_OnCeiling = Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround);
+        isOnCeiling = Physics2D.OverlapBoxAll(ceilingPointCheck.position, ceilingCheckSize,
+            0.0f, whatIsGround).Length > 0;
+
+        //Transforming the player
+        if (inputManager.powerTransform)
+        {
+            inputManager.powerTransform = false;
+            DruidicTransform();
+        }
     }
 
 	public void Move(float move, bool crouch, bool jump)
 	{
-        Vector3 targetVelocity = m_Rigidbody2D.velocity;
+        Vector3 targetVelocity = rigidbody_2D.velocity;
 
         //If on ground
-        if (m_Grounded)
+        if (isGrounded)
 		{
+            animator.SetBool("IsGrounded", true);
 			// If crouching
 			if (crouch)
             {
                 // Reduce the speed by the crouchSpeed multiplier
-                move *= m_CrouchSpeed;
+                move *= crouchSpeed;
 
                 // Disable one of the colliders when crouching
-                if (m_CrouchDisableCollider != null)
-                    m_CrouchDisableCollider.enabled = false;
+                if (colliderToDisableWhenCrouch != null)
+                    colliderToDisableWhenCrouch.enabled = false;
 
-                animator.SetBool("isCrouching", true);
+                animator.SetBool("IsCrouching", true);
             } else
             {
                 // Enable the collider when not crouching
-                if (m_CrouchDisableCollider != null)
-                    m_CrouchDisableCollider.enabled = true;
+                if (colliderToDisableWhenCrouch != null)
+                    colliderToDisableWhenCrouch.enabled = true;
 
-                animator.SetBool("isCrouching", false);
+                animator.SetBool("IsCrouching", false);
             }
 
             // Move the character by finding the target velocity
@@ -97,46 +108,47 @@ public class PlayerController : MonoBehaviour
         //If not on ground
         else
         {
+            animator.SetBool("IsGrounded", false);
             //Making ajustments to the momentum
-            targetVelocity.x = targetVelocity.x + move * 10f * m_AirControl;
+            targetVelocity.x = targetVelocity.x + move * 10f * airControl;
             targetVelocity.x = Mathf.Min(move * 10f, targetVelocity.x);
             targetVelocity.x = Mathf.Max(move * 10f, targetVelocity.x);
         }
 
         // And then smoothing it out and applying it to the character
-        m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref velocity, m_MovementSmoothing);
+        rigidbody_2D.velocity = Vector3.SmoothDamp(rigidbody_2D.velocity, targetVelocity, ref velocity, moveSmoothing);
 
         // If the input is moving the player right and the player is facing left...
-        if (move > 0 && !m_FacingRight) Flip();
+        if (move > 0 && !isFacingRight) Flip();
         // Otherwise if the input is moving the player left and the player is facing right...
-        else if (move < 0 && m_FacingRight) Flip();
+        else if (move < 0 && isFacingRight) Flip();
 
         // If the player should jump...
         if (jump)
 		{
 			// Add a vertical force to the player.
-			m_Grounded = false;
-			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+			isGrounded = false;
+			rigidbody_2D.AddForce(new Vector2(0f, jumpForce));
 		}
 
-        if(m_Rigidbody2D.velocity.y >= 0)
+        if(rigidbody_2D.velocity.y >= 0)
         {
-            animator.SetFloat("MoveY+", m_Rigidbody2D.velocity.y);
+            animator.SetFloat("MoveY+", rigidbody_2D.velocity.y);
             animator.SetFloat("MoveY-", 0);
         }
         else
         {
             animator.SetFloat("MoveY+", 0);
-            animator.SetFloat("MoveY-", Mathf.Abs(m_Rigidbody2D.velocity.y));
+            animator.SetFloat("MoveY-", Mathf.Abs(rigidbody_2D.velocity.y));
         }
 
-        animator.SetFloat("MoveX", Mathf.Abs(m_Rigidbody2D.velocity.x));
+        animator.SetFloat("MoveX", Mathf.Abs(rigidbody_2D.velocity.x));
 	}
 
 	private void Flip()
 	{
 		// Switch the way the player is labelled as facing.
-		m_FacingRight = !m_FacingRight;
+		isFacingRight = !isFacingRight;
 
         transform.Rotate(0f, 180f, 0f);
 	}
@@ -150,7 +162,7 @@ public class PlayerController : MonoBehaviour
             humanForm.enabled = false;
             druidicForms[0].enabled = true;
 
-            animator.SetInteger("druidicForm", 1);
+            animator.SetInteger("DruidicForm", 1);
         }
         //Otherwise, is a bird and will transform back to humanoid
         else
@@ -158,7 +170,7 @@ public class PlayerController : MonoBehaviour
             druidicForms[0].enabled = false;
             humanForm.enabled = true;
 
-            animator.SetInteger("druidicForm", 0);
+            animator.SetInteger("DruidicForm", 0);
         }
 
         // Creating the transform effect, and destroying it after it's finished
