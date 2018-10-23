@@ -1,16 +1,13 @@
 using UnityEngine;
 
+// Take care of movement, transformations, everything that envolves the entity player physically, and the sprites.
 public class PlayerController : MonoBehaviour
 {
-    public PlayerInputManager inputManager;
-
-	[Range(0, 1)] [SerializeField] private float crouchSpeed = .36f;			// Amount of maxSpeed applied to crouching movement. 1 = 100%
+	[Range(0, 1)] [SerializeField] private float crouchSpeed = .4f;		// Amount of maxSpeed applied to crouching movement. 1 = 100%
 	[Range(0, .3f)] [SerializeField] private float moveSmoothing = .05f;	// How much to smooth out the movement
 	
-	[SerializeField] private LayerMask whatIsGround;							// A mask determining what is ground to the character
-	[SerializeField] private Transform groundPointCheck;						// A position marking where to check if the player is grounded.
-	[SerializeField] private Transform ceilingPointCheck;						// A position marking where to check for ceilings
-	[SerializeField] public Collider2D colliderToDisableWhenCrouch;			// A collider that will be disabled when crouching
+	[SerializeField] private LayerMask whatIsGround;				// A mask determining what is ground to the character
+	[SerializeField] public Collider2D colliderToDisableWhenCrouch;	// A collider that will be disabled when crouching
 
 	private bool isOnGround;            // Whether or not the player is grounded.
     private bool isOnCeiling;           // Whether or not the player has a ceiling above it
@@ -19,8 +16,10 @@ public class PlayerController : MonoBehaviour
 	private bool isFacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 velocity = Vector3.zero;
 
-    public float jumpForce;							// Amount of force added when the player jumps.
-    public float airControl;                         // Percentage of control the player has on air.
+    public float jumpSpeed;	    // Amount of force added when the player jumps.
+    public float airControl;    // Percentage of control the player has on air.
+    public float runSpeed;      // Max running speed
+    public float dashForce;     // Amount of force applied when dashing
 
     [SerializeField] private HumanForm humanForm;
     [SerializeField] private MonoBehaviour[] druidicForms = new MonoBehaviour[1];
@@ -28,8 +27,10 @@ public class PlayerController : MonoBehaviour
     public GameObject transformEffect;
 
     //Parameters that change when transforming between druidic forms
-    public void SetJumpForce(float x) { jumpForce = x; }
+    public void SetJumpSpeed(float x) { jumpSpeed = x; }
     public void SetAirControl(float x) { airControl = x; }
+    public void SetRunSpeed(float x) { runSpeed = x; }
+    public void SetDashForce(float x) { dashForce = x; }
 
     //Ground and ceiling control
     public void SetIsOnCeiling(bool isOnCeiling) { this.isOnCeiling = isOnCeiling; }
@@ -52,19 +53,9 @@ public class PlayerController : MonoBehaviour
         humanForm.enabled = true;
 	}
 
-
-	private void FixedUpdate()
-	{
-        //Transforming the player
-        if (inputManager.powerTransform)
-        {
-            inputManager.powerTransform = false;
-            DruidicTransform();
-        }
-    }
-
 	public void Move(float move, bool crouch, bool jump)
 	{
+        move *= runSpeed;
         Vector3 targetVelocity = rigidbody_2D.velocity;
 
         if (isOnGround)
@@ -103,19 +94,18 @@ public class PlayerController : MonoBehaviour
             targetVelocity.x = Mathf.Max(move * 10f, targetVelocity.x);
         }
 
+        // If the player should jump
+        if (jump)
+        {
+            targetVelocity.y = jumpSpeed;
+        }
+
         // And then smoothing it out and applying it to the character
         rigidbody_2D.velocity = Vector3.SmoothDamp(rigidbody_2D.velocity, targetVelocity, ref velocity, moveSmoothing);
 
         //Fliping player sprite to match move
         if (move > 0 && !isFacingRight) Flip();
         else if (move < 0 && isFacingRight) Flip();
-
-        // If the player should jump
-        if (jump)
-		{
-			// Add a vertical force to the player.
-			rigidbody_2D.AddForce(new Vector2(0f, jumpForce));
-		}
 
         if(rigidbody_2D.velocity.y >= 0)
         {
@@ -130,6 +120,15 @@ public class PlayerController : MonoBehaviour
 
         animator.SetFloat("MoveX", Mathf.Abs(rigidbody_2D.velocity.x));
 	}
+
+    public void Dash(bool dashRight)
+    {
+        if (dashRight)
+        {
+            rigidbody_2D.AddForce(new Vector2(dashForce, 0));
+        }
+        else rigidbody_2D.AddForce(new Vector2(-dashForce, 0));
+    }
 
 	private void Flip()
 	{

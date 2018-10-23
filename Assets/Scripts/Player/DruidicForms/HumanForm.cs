@@ -4,54 +4,71 @@ using UnityEngine;
 
 public class HumanForm: MonoBehaviour
 {
-	public PlayerController controller;
-    
-    public float jumpForce;
+	private PlayerController controller;
+    private PlayerInputManager inputManager;
+    private PlayerResourceManager resourceManager;
+
+    public int health_max;
+
+    public float jumpSpeed;
     public float airControl;
     public float runSpeed;
+    public float dashForce;
 
     private bool keepCrouch = false;
+    private bool lastJumpInput = false;
+
+    private void Awake()
+    {
+        controller = GetComponent<PlayerController>();
+        inputManager = GetComponent<PlayerInputManager>();
+        resourceManager = GetComponent<PlayerResourceManager>();
+    }
 
     void OnEnable () {
-        controller.SetJumpForce(jumpForce);
+        controller.SetJumpSpeed(jumpSpeed);
         controller.SetAirControl(airControl);
+        controller.SetRunSpeed(runSpeed);
+        controller.SetDashForce(dashForce);
+        resourceManager.setHealthMax(health_max);
     }
 
     //Applying the input
 	void FixedUpdate ()
 	{
-        if (controller.inputManager.crouch || (!controller.inputManager.crouch && controller.IsOnCeiling()))
+        //If the player was crouching, it will continue if there's a ceiling above him
+        if (inputManager.crouch || (!inputManager.crouch && controller.IsOnCeiling()))
         {
             keepCrouch = true;
         }
         else keepCrouch = false;
 
-        if (controller.IsOnCeiling()) controller.inputManager.jump = false;
-        
+        //Can't jump when there's a ceiling directly above
+        if (controller.IsOnCeiling()) inputManager.jump = false;
 
-        /*If the player was crouching, it will continue if there's a ceiling above him
-        if (controller.inputManager.stopCrouch && !controller.inputManager.crouch)
-        {
-            if (controller.IsOnCeiling()) controller.inputManager.crouch = true;
-            else
-            {
-                controller.inputManager.crouch = false;
-                controller.inputManager.stopCrouch = false;
-            }
-        }*/
+        //Filtering the jump input
+        if (lastJumpInput && inputManager.jump) inputManager.jump = false;
+        else lastJumpInput = inputManager.jump;
 
         //If the player isn't grounded, it can't double jump
-        if (controller.inputManager.jump && !controller.IsOnGround())
+        if (inputManager.jump && !controller.IsOnGround())
         {
             //Moving it, without double jumping
-            controller.Move(controller.inputManager.horizontalMove * runSpeed * Time.fixedDeltaTime,
+            controller.Move(inputManager.horizontalMove * Time.fixedDeltaTime,
                 keepCrouch, false);
         }
         else
         {
             //Moving it, jumping or not
-            controller.Move(controller.inputManager.horizontalMove * runSpeed * Time.fixedDeltaTime,
-                keepCrouch, controller.inputManager.jump);
+            controller.Move(inputManager.horizontalMove * Time.fixedDeltaTime,
+                keepCrouch, inputManager.jump);
+        }
+
+        //Dash
+        if (inputManager.dash != 0)
+        {
+            controller.Dash(inputManager.dash == 1);
+            inputManager.dash = 0;
         }
     }
 }

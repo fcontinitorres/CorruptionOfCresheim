@@ -2,12 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Take care of setting up the parameters to all druidic transformations and sinalizes to the PlayerController
+// when to transform
 public class PlayerInputManager : MonoBehaviour {
+
+    private PlayerController controller;
 
     public float horizontalMove = 0f;
     public bool jump = false;
     public bool crouch = false;
+    public int dash = 0;
     public bool powerTransform = false;
+
+    private void Awake()
+    {
+        controller = GetComponent<PlayerController>();
+    }
 
     private void Update()
     {
@@ -19,7 +29,12 @@ public class PlayerInputManager : MonoBehaviour {
         if (Input.GetButtonDown("Crouch")) crouch = true;
         else if (Input.GetButtonUp("Crouch")) crouch = false;
 
-        if (Input.GetButtonDown("Transform")) powerTransform = true;
-        else if (Input.GetButtonUp("Transform")) powerTransform = false;
+        if (Input.GetButtonDown("DashLeft")) dash = -1;
+        else if (Input.GetButtonDown("DashRight")) dash = 1;
+        else if (Input.GetButtonUp("DashLeft") && Input.GetButtonUp("DashRight")) dash = 0;
+
+        if (Input.GetButtonDown("Transform")) {
+            controller.DruidicTransform();
+        }
     }
 }
