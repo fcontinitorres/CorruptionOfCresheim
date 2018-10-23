@@ -10,6 +10,8 @@ public class HumanForm: MonoBehaviour
     public float airControl;
     public float runSpeed;
 
+    private bool keepCrouch = false;
+
     void OnEnable () {
         controller.SetJumpForce(jumpForce);
         controller.SetAirControl(airControl);
@@ -18,20 +20,12 @@ public class HumanForm: MonoBehaviour
     //Applying the input
 	void FixedUpdate ()
 	{
-        if (controller.inputManager.crouch || (!controller.inputManager.crouch && controller.inputManager.keepCrouch))
+        if (controller.inputManager.crouch || (!controller.inputManager.crouch && controller.IsOnCeiling()))
         {
-            if (controller.IsOnCeiling())
-            {
-                controller.inputManager.jump = false;
-                controller.inputManager.crouch = true;
-            }
-            else
-            {
-                Debug.Log("NOT CEILING");
-                controller.inputManager.keepCrouch = false;
-            }
+            keepCrouch = true;
         }
-        Debug.Log(controller.inputManager.crouch);
+        else keepCrouch = false;
+        
 
         /*If the player was crouching, it will continue if there's a ceiling above him
         if (controller.inputManager.stopCrouch && !controller.inputManager.crouch)
@@ -49,13 +43,13 @@ public class HumanForm: MonoBehaviour
         {
             //Moving it, without double jumping
             controller.Move(controller.inputManager.horizontalMove * runSpeed * Time.fixedDeltaTime,
-                controller.inputManager.crouch, false);
+                keepCrouch, false);
         }
         else
         {
             //Moving it, jumping or not
             controller.Move(controller.inputManager.horizontalMove * runSpeed * Time.fixedDeltaTime,
-                controller.inputManager.crouch, controller.inputManager.jump);
+                keepCrouch, controller.inputManager.jump);
         }
     }
 }

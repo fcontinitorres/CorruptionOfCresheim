@@ -7,7 +7,6 @@ public class PlayerInputManager : MonoBehaviour {
     public float horizontalMove = 0f;
     public bool jump = false;
     public bool crouch = false;
-    public bool keepCrouch = false;
     public bool powerTransform = false;
 
     private void Update()
@@ -17,11 +16,7 @@ public class PlayerInputManager : MonoBehaviour {
         if (Input.GetButtonDown("Jump")) jump = true;
         else if (Input.GetButtonUp("Jump")) jump = false;
 
-        if (Input.GetButtonDown("Crouch"))
-        {
-            crouch = true;
-            keepCrouch = true;
-        }
+        if (Input.GetButtonDown("Crouch")) crouch = true;
         else if (Input.GetButtonUp("Crouch")) crouch = false;
 
         if (Input.GetButtonDown("Transform")) powerTransform = true;

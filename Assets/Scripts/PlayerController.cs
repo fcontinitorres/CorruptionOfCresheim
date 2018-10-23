@@ -12,10 +12,9 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private Transform ceilingPointCheck;						// A position marking where to check for ceilings
 	[SerializeField] public Collider2D colliderToDisableWhenCrouch;			// A collider that will be disabled when crouching
 
-    private Vector2 groundCheckSize = new Vector2(0.5f, 0.1f);
-	private bool isGrounded;            // Whether or not the player is grounded.
+	private bool isOnGround;            // Whether or not the player is grounded.
     private bool isOnCeiling;           // Whether or not the player has a ceiling above it
-    private Vector2 ceilingCheckSize = new Vector2(0.5f, 0.5f);
+
     private Rigidbody2D rigidbody_2D;
 	private bool isFacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 velocity = Vector3.zero;
@@ -31,8 +30,10 @@ public class PlayerController : MonoBehaviour
     public void SetJumpForce(float x) { jumpForce = x; }
     public void SetAirControl(float x) { airControl = x; }
 
+    public void SetIsOnCeiling(bool isOnCeiling) { this.isOnCeiling = isOnCeiling; }
     public bool IsOnCeiling() { return isOnCeiling; }
-    public bool IsOnGround() { return isGrounded; }
+    public void SetIsOnGround(bool isOnGround) { this.isOnGround = isOnGround; }
+    public bool IsOnGround() { return isOnGround; }
 
     private void Awake()
 	{
@@ -52,20 +53,6 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		isGrounded = false;
-
-		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
-		// This can be done using layers instead but Sample Assets will not overwrite your project settings.
-		Collider2D[] colliders = Physics2D.OverlapBoxAll(groundPointCheck.position, groundCheckSize, 0.0f, whatIsGround);
-		for (int i = 0; i < colliders.Length; i++)
-		{
-			if (colliders[i].gameObject != gameObject)
-				isGrounded = true;
-		}
-
-        isOnCeiling = Physics2D.OverlapBoxAll(ceilingPointCheck.position, ceilingCheckSize,
-            0.0f, whatIsGround).Length > 0;
-
         //Transforming the player
         if (inputManager.powerTransform)
         {
@@ -79,7 +66,7 @@ public class PlayerController : MonoBehaviour
         Vector3 targetVelocity = rigidbody_2D.velocity;
 
         //If on ground
-        if (isGrounded)
+        if (isOnGround)
 		{
             animator.SetBool("IsGrounded", true);
 			// If crouching
@@ -127,7 +114,7 @@ public class PlayerController : MonoBehaviour
         if (jump)
 		{
 			// Add a vertical force to the player.
-			isGrounded = false;
+			isOnGround = false;
 			rigidbody_2D.AddForce(new Vector2(0f, jumpForce));
 		}
 
