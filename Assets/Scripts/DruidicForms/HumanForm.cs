@@ -25,6 +25,8 @@ public class HumanForm: MonoBehaviour
             keepCrouch = true;
         }
         else keepCrouch = false;
+
+        if (controller.IsOnCeiling()) controller.inputManager.jump = false;
         
 
         /*If the player was crouching, it will continue if there's a ceiling above him
