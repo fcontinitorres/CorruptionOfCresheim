@@ -27,9 +27,11 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public GameObject transformEffect;
 
+    //Parameters that change when transforming between druidic forms
     public void SetJumpForce(float x) { jumpForce = x; }
     public void SetAirControl(float x) { airControl = x; }
 
+    //Ground and ceiling control
     public void SetIsOnCeiling(bool isOnCeiling) { this.isOnCeiling = isOnCeiling; }
     public bool IsOnCeiling() { return isOnCeiling; }
     public void SetIsOnGround(bool isOnGround) { this.isOnGround = isOnGround; }
@@ -40,11 +42,11 @@ public class PlayerController : MonoBehaviour
 		rigidbody_2D = GetComponent<Rigidbody2D>();
 
         //Disabling all druidic forms, including the humanoid
+        humanForm.enabled = false;
         for (int i = 0; i < druidicForms.Length; i++)
         {
             druidicForms[i].enabled = false;
         }
-        humanForm.enabled = false;
 
         //Enabling only the humanoid
         humanForm.enabled = true;
@@ -65,7 +67,6 @@ public class PlayerController : MonoBehaviour
 	{
         Vector3 targetVelocity = rigidbody_2D.velocity;
 
-        //If on ground
         if (isOnGround)
 		{
             animator.SetBool("IsGrounded", true);
@@ -105,16 +106,14 @@ public class PlayerController : MonoBehaviour
         // And then smoothing it out and applying it to the character
         rigidbody_2D.velocity = Vector3.SmoothDamp(rigidbody_2D.velocity, targetVelocity, ref velocity, moveSmoothing);
 
-        // If the input is moving the player right and the player is facing left...
-        if (rigidbody_2D.velocity.x > 0 && !isFacingRight) Flip();
-        // Otherwise if the input is moving the player left and the player is facing right...
-        else if (rigidbody_2D.velocity.x < 0 && isFacingRight) Flip();
+        //Fliping player sprite to match move
+        if (move > 0 && !isFacingRight) Flip();
+        else if (move < 0 && isFacingRight) Flip();
 
-        // If the player should jump...
+        // If the player should jump
         if (jump)
 		{
 			// Add a vertical force to the player.
-			isOnGround = false;
 			rigidbody_2D.AddForce(new Vector2(0f, jumpForce));
 		}
 
@@ -136,7 +135,6 @@ public class PlayerController : MonoBehaviour
 	{
 		// Switch the way the player is labelled as facing.
 		isFacingRight = !isFacingRight;
-
         transform.Rotate(0f, 180f, 0f);
 	}
 
