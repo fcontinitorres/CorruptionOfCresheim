@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HumanForm: MonoBehaviour
 {
-	public CharacterController2D controller;
+	public PlayerController controller;
     
     public float jumpForce;
     public float airControl;
@@ -54,10 +54,10 @@ public class HumanForm: MonoBehaviour
     //Applying the input
 	void FixedUpdate ()
 	{
-        if (powerTranform)
+        if (powerTranform && !checkCeiling)
         {
             powerTranform = false;
-            controller.druidicTransform();
+            controller.DruidicTransform();
         }
         else
         {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CharacterController2D : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
 	[Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;			// Amount of maxSpeed applied to crouching movement. 1 = 100%
 	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;	// How much to smooth out the movement
@@ -24,6 +24,7 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private HumanForm humanForm;
     [SerializeField] private MonoBehaviour[] druidicForms = new MonoBehaviour[1];
     public Animator animator;
+    public GameObject transformEffect;
 
     public void setJumpForce(float x) { m_JumpForce = x; }
     public void setAirControl(float x) { m_AirControl = x; }
@@ -137,13 +138,10 @@ public class CharacterController2D : MonoBehaviour
 		// Switch the way the player is labelled as facing.
 		m_FacingRight = !m_FacingRight;
 
-		// Multiply the player's x local scale by -1.
-		Vector3 theScale = transform.localScale;
-		theScale.x *= -1;
-		transform.localScale = theScale;
+        transform.Rotate(0f, 180f, 0f);
 	}
 
-    public void druidicTransform()
+    public void DruidicTransform()
     {
         if (humanForm.enabled)
         {
@@ -159,5 +157,8 @@ public class CharacterController2D : MonoBehaviour
 
             animator.SetInteger("druidicForm", 0);
         }
+
+        GameObject anim = Instantiate(transformEffect, transform.position, Quaternion.identity);
+        Destroy(anim, anim.GetComponent<Animator>().runtimeAnimatorController.animationClips[0].length);
     }
 }

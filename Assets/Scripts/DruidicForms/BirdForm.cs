@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BirdForm: MonoBehaviour
 {
-    public CharacterController2D controller;
+    public PlayerController controller;
     
     public float jumpForce;
     public float airControl;
@@ -48,7 +48,7 @@ public class BirdForm: MonoBehaviour
         if (powerTranform)
         {
             powerTranform = false;
-            controller.druidicTransform();
+            controller.DruidicTransform();
         }
         else
         {

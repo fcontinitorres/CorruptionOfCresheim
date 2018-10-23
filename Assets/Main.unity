@@ -758,7 +758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 820667354}
-  jumpForce: 550
+  jumpForce: 100
   airControl: 1
   runSpeed: 60
 --- !u!95 &820667359
