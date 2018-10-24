@@ -9,42 +9,37 @@ public class PlayerResourceManager : MonoBehaviour {
     public Sprite[] heartSprites;
     
     private int health_max = 0;
-    private int health_curr =  0;
+    private float health_curr = -1;
 
     public Image[] manaUI;
     public Sprite[] manaSprites;
 
     [SerializeField] private int mana_max = 0;
-    private int mana_curr = 0;
+    private int mana_curr = -1;
 
     private void Awake()
     {
-        health_max = gameObject.GetComponent<HumanForm>().health_max;
-        health_curr = health_max;
-
-        mana_curr = mana_max;
-
-        UpdateHealth();
+        SetManaMax(mana_max);
         UpdateMana();
     }
 
-    public int GetHealth() { return health_curr; }
+    public int GetHealth() { return (int) health_curr; }
     public void SetHealthMax(int health)
     {
-        health_curr = (int)((float)health * (float)health_curr / (float)health_max);
+        if (health_curr == -1) health_curr = health;
+        else health_curr = Mathf.Max(0, (float)health * (float)health_curr / (float)health_max);
         health_max = health;
 
         UpdateHealth();
+
+        if (health_curr == 0) GetComponent<PlayerController>().Die();
     }
     public void TakeDamage(int dmg)
     {
         if (dmg <= 0) return;
         health_curr = Mathf.Max(0, health_curr - dmg);
         UpdateHealth();
-        if(health_curr == 0)
-        {
-            GetComponent<PlayerController>().Die();
-        }
+        if(health_curr == 0) GetComponent<PlayerController>().Die();
     }
     public void HealDamage(int heal) {
         if (heal <= 0) return;
@@ -54,6 +49,9 @@ public class PlayerResourceManager : MonoBehaviour {
 
     public int GetMana() { return mana_curr; }
     public void SetManaMax(int mana) {
+
+        if (mana_curr == -1) mana_curr = mana;
+        else mana_curr = (int)((float)mana * (float)mana_curr / (float)mana_max);
         mana_max = mana;
         UpdateMana();
     }
@@ -76,7 +74,7 @@ public class PlayerResourceManager : MonoBehaviour {
     }
 
     void UpdateHealth() {
-        int aux = health_curr;
+        int aux = (int)health_curr;
 
         for (int i = 0; i < heartsUI.Length; i++) {
             //If the player has that heart slot
@@ -89,7 +87,6 @@ public class PlayerResourceManager : MonoBehaviour {
             }
             //Otherwise, it will disable that heart slot
             else heartsUI[i].enabled = false;
-
         }
     }
 
@@ -109,7 +106,6 @@ public class PlayerResourceManager : MonoBehaviour {
             }
             //Otherwise, it will disable that heart slot
             else manaUI[i].enabled = false;
-
         }
     }
 }

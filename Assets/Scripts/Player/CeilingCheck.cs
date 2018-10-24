@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class CeilingCheck : MonoBehaviour {
 
-    private PlayerController player;
+    private PlayerController controller;
 
     private void Start()
     {
-        player = gameObject.GetComponentInParent<PlayerController>();
+        controller = gameObject.GetComponentInParent<PlayerController>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        player.SetIsOnCeiling(true);
+        controller.SetIsOnCeiling(true);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        player.SetIsOnCeiling(true);
+        controller.SetIsOnCeiling(true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        player.SetIsOnCeiling(false);
+        controller.SetIsOnCeiling(false);
     }
 }

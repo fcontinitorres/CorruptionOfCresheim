@@ -4,46 +4,40 @@ using UnityEngine;
 
 public class HumanForm: DruidicForm
 {
-	private PlayerController controller;
-    private PlayerInputManager inputManager;
-    private PlayerResourceManager resourceManager;
+    [SerializeField] private Collider2D standCollider;	// A collider that will be disabled when crouching
 
-    public int health_max;
-
-    public float jumpSpeed;
-    public float airControl;
-    public float runSpeed;
-    public float dashForce;
+    [Range(0, 1)] [SerializeField] private float crouchSpeed = .4f; // Amount of maxSpeed applied to crouching movement. 1 = 100%
 
     private bool keepCrouch = false;
     private bool lastJumpInput = false;
 
-    public override bool canBeTransformed() { return true; }
-
-    private void Awake()
-    {
-        controller = GetComponent<PlayerController>();
-        inputManager = GetComponent<PlayerInputManager>();
-        resourceManager = GetComponent<PlayerResourceManager>();
+    public override void FormEnable() { }
+    public override void FormDisable() {
+        controller.SetIsOnCeiling(false);
+        controller.SetIsOnGround(false);
     }
 
-    void OnEnable () {
-        controller.SetJumpSpeed(jumpSpeed);
-        controller.SetAirControl(airControl);
-        controller.SetRunSpeed(runSpeed);
-        controller.SetDashForce(dashForce);
-        resourceManager.SetHealthMax(health_max);
-    }
-
-    //Applying the input
-	void FixedUpdate ()
+    public override void Move()
 	{
         //If the player was crouching, it will continue if there's a ceiling above him
         if (inputManager.crouch || (!inputManager.crouch && controller.IsOnCeiling()))
         {
             keepCrouch = true;
+            //Applying crouch speed modifier
+            inputManager.horizontalMove *= crouchSpeed;
+            //Disabling the stand collider
+            if (standCollider) standCollider.enabled = false;
+            //Setting animator to crouch
+            animator.SetBool("IsCrouching", true);
         }
-        else keepCrouch = false;
+        else
+        {
+            keepCrouch = false;
+            //Enabling the stand collider
+            if (standCollider) standCollider.enabled = true;
+            //Setting animator to not crouch
+            animator.SetBool("IsCrouching", false);
+        }
 
         //Can't jump when there's a ceiling directly above
         if (controller.IsOnCeiling()) inputManager.jump = false;
@@ -56,15 +50,10 @@ public class HumanForm: DruidicForm
         if (inputManager.jump && !controller.IsOnGround())
         {
             //Moving it, without double jumping
-            controller.Move(inputManager.horizontalMove * Time.fixedDeltaTime,
-                keepCrouch, false);
+            inputManager.jump = false;
         }
-        else
-        {
-            //Moving it, jumping or not
-            controller.Move(inputManager.horizontalMove * Time.fixedDeltaTime,
-                keepCrouch, inputManager.jump);
-        }
+
+        controller.Move(inputManager.horizontalMove * Time.fixedDeltaTime, inputManager.jump);
 
         //Dash
         if (!keepCrouch && inputManager.dash != 0)

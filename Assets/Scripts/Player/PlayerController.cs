@@ -4,13 +4,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private PlayerInputManager inputManager;
-    private PlayerResourceManager resourseManager;
+    private Animator animator;
 
-	[Range(0, 1)] [SerializeField] private float crouchSpeed = .4f;		// Amount of maxSpeed applied to crouching movement. 1 = 100%
-	[Range(0, .3f)] [SerializeField] private float moveSmoothing = .05f;	// How much to smooth out the movement
-	
-	[SerializeField] private LayerMask whatIsGround;				// A mask determining what is ground to the character
-	[SerializeField] public Collider2D colliderToDisableWhenCrouch;	// A collider that will be disabled when crouching
+    [Range(0, .3f)] [SerializeField] private float moveSmoothing = .05f;    // How much to smooth out the movement
 
 	private bool isOnGround;            // Whether or not the player is grounded.
     private bool isOnCeiling;           // Whether or not the player has a ceiling above it
@@ -19,15 +15,13 @@ public class PlayerController : MonoBehaviour
 	private bool isFacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 velocity = Vector3.zero;
 
-    public float jumpSpeed;	    // Amount of force added when the player jumps.
-    public float airControl;    // Percentage of control the player has on air.
-    public float runSpeed;      // Max running speed
-    public float dashForce;     // Amount of force applied when dashing
+    private float jumpSpeed;	    // Amount of force added when the player jumps.
+    private float airControl;    // Percentage of control the player has on air.
+    private float runSpeed;      // Max running speed
+    private float dashForce;
 
     [SerializeField] private HumanForm humanForm;
     [SerializeField] private DruidicForm[] druidicForms;
-    public Animator animator;
-    public GameObject transformEffect;
 
     //Parameters that change when transforming between druidic forms
     public void SetJumpSpeed(float x) { jumpSpeed = x; }
@@ -44,15 +38,12 @@ public class PlayerController : MonoBehaviour
     private void Awake()
 	{
         inputManager = GetComponent<PlayerInputManager>();
-        resourseManager = GetComponent<PlayerResourceManager>();
+        animator = GetComponent<Animator>();
 		rigidbody_2D = GetComponent<Rigidbody2D>();
 
         //Disabling all druidic forms, including the humanoid
         humanForm.enabled = false;
-        for (int i = 0; i < druidicForms.Length; i++)
-        {
-            druidicForms[i].enabled = false;
-        }
+        for (int i = 0; i < druidicForms.Length; i++) druidicForms[i].enabled = false;
 
         //Enabling only the humanoid
         humanForm.enabled = true;
@@ -60,33 +51,15 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("IsDead", false);
 	}
 
-	public void Move(float move, bool crouch, bool jump)
+	public void Move(float move, bool jump)
 	{
         move *= runSpeed;
         Vector3 targetVelocity = rigidbody_2D.velocity;
 
+        //If on ground
         if (isOnGround)
 		{
             animator.SetBool("IsGrounded", true);
-			// If crouching
-			if (crouch)
-            {
-                // Reduce the speed by the crouchSpeed multiplier
-                move *= crouchSpeed;
-
-                // Disable one of the colliders when crouching
-                if (colliderToDisableWhenCrouch != null)
-                    colliderToDisableWhenCrouch.enabled = false;
-
-                animator.SetBool("IsCrouching", true);
-            } else
-            {
-                // Enable the collider when not crouching
-                if (colliderToDisableWhenCrouch != null)
-                    colliderToDisableWhenCrouch.enabled = true;
-
-                animator.SetBool("IsCrouching", false);
-            }
 
             // Move the character by finding the target velocity
             targetVelocity.x = move * 10f;
@@ -102,10 +75,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // If the player should jump
-        if (jump)
-        {
-            targetVelocity.y = jumpSpeed;
-        }
+        if (jump) targetVelocity.y = jumpSpeed;
 
         // And then smoothing it out and applying it to the character
         rigidbody_2D.velocity = Vector3.SmoothDamp(rigidbody_2D.velocity, targetVelocity, ref velocity, moveSmoothing);
@@ -150,7 +120,7 @@ public class PlayerController : MonoBehaviour
         //If is humanoid, will transform to a bird
         if (humanForm.enabled)
         {
-            if (resourseManager.GetMana() < ((BirdForm)druidicForms[0]).manaCost) return;
+            if (!druidicForms[0].CanBeTransformed()) return;
 
             humanForm.enabled = false;
             druidicForms[0].enabled = true;
@@ -160,15 +130,13 @@ public class PlayerController : MonoBehaviour
         //Otherwise, is a bird and will transform back to humanoid
         else
         {
+            if (!humanForm.CanBeTransformed()) return;
+
             druidicForms[0].enabled = false;
             humanForm.enabled = true;
 
             animator.SetInteger("DruidicForm", 0);
         }
-
-        // Creating the transform effect, and destroying it after it's finished
-        GameObject anim = Instantiate(transformEffect, transform.position, Quaternion.identity);
-        Destroy(anim, anim.GetComponent<Animator>().runtimeAnimatorController.animationClips[0].length);
     }
 
     // Die function

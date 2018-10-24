@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class GroundCheck : MonoBehaviour {
 
-    private PlayerController player;
+    private PlayerController controller;
 
     private void Start()
     {
-        player = gameObject.GetComponentInParent<PlayerController>();
+        controller = gameObject.GetComponentInParent<PlayerController>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        player.SetIsOnGround(true);
+        controller.SetIsOnGround(true);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        player.SetIsOnGround(true);
+        controller.SetIsOnGround(true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        player.SetIsOnGround(false);
+        controller.SetIsOnGround(false);
     }
 }
