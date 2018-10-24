@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
 
             // Move the character by finding the target velocity
             targetVelocity.x = move * 10f;
+            targetVelocity.y = 0;
         }
         //If not on ground
         else

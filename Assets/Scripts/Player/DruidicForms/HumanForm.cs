@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HumanForm: DruidicForm
 {
+    [SerializeField] private PlayerAttackScript attacksGround;
+    [SerializeField] private PlayerAttackScript attacksAir;
     [SerializeField] private Collider2D standCollider;	// A collider that will be disabled when crouching
 
     [Range(0, 1)] [SerializeField] private float crouchSpeed = .4f; // Amount of maxSpeed applied to crouching movement. 1 = 100%
@@ -11,6 +13,7 @@ public class HumanForm: DruidicForm
     private bool keepCrouch = false;
     private bool lastJumpInput = false;
 
+    public override void FormAwake() { }
     public override void FormEnable() { }
     public override void FormDisable() {
         controller.SetIsOnCeiling(false);
@@ -19,6 +22,19 @@ public class HumanForm: DruidicForm
 
     public override void Move()
 	{
+        //Stop when ground attacking
+        if (attacksGround.cooldownCurr > attacksGround.cooldownTolerance)
+        {
+            controller.Move(0, false);
+            return;
+        }
+
+        if (!inputManager.crouch && !keepCrouch && inputManager.attack)
+        {
+            if (controller.IsOnGround()) attacksGround.Attack();
+            else attacksAir.Attack();
+        }
+
         //If the player was crouching, it will continue if there's a ceiling above him
         if (inputManager.crouch || (!inputManager.crouch && controller.IsOnCeiling()))
         {

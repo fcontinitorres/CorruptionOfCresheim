@@ -24,6 +24,7 @@ public abstract class DruidicForm : MonoBehaviour
         inputManager = GetComponentInParent<PlayerInputManager>();
         resourceManager = GetComponentInParent<PlayerResourceManager>();
         animator = GetComponentInParent<Animator>();
+        FormAwake();
 
         OnDisable();
     }
@@ -70,6 +71,7 @@ public abstract class DruidicForm : MonoBehaviour
     }
 
     // Method to do stuff that happens when transforming to this form and when distransforming
+    public abstract void FormAwake();
     public abstract void FormEnable();
     public abstract void FormDisable();
 
