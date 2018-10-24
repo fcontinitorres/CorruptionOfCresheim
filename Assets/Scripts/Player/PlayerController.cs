@@ -56,6 +56,8 @@ public class PlayerController : MonoBehaviour
 
         //Enabling only the humanoid
         humanForm.enabled = true;
+
+        animator.SetBool("IsDead", false);
 	}
 
 	public void Move(float move, bool crouch, bool jump)
@@ -148,7 +150,7 @@ public class PlayerController : MonoBehaviour
         //If is humanoid, will transform to a bird
         if (humanForm.enabled)
         {
-            if (resourseManager.getMana() < ((BirdForm)druidicForms[0]).manaCost) return;
+            if (resourseManager.GetMana() < ((BirdForm)druidicForms[0]).manaCost) return;
 
             humanForm.enabled = false;
             druidicForms[0].enabled = true;
@@ -167,5 +169,14 @@ public class PlayerController : MonoBehaviour
         // Creating the transform effect, and destroying it after it's finished
         GameObject anim = Instantiate(transformEffect, transform.position, Quaternion.identity);
         Destroy(anim, anim.GetComponent<Animator>().runtimeAnimatorController.animationClips[0].length);
+    }
+
+    // Die function
+    public void Die()
+    {
+        if (!humanForm.enabled) DruidicTransform();
+
+        animator.SetBool("IsDead", true);
+        inputManager.enabled = false;
     }
 }

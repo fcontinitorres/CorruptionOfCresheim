@@ -28,40 +28,48 @@ public class PlayerResourceManager : MonoBehaviour {
         UpdateMana();
     }
 
-    public int getHealth() { return health_curr; }
-    public void setHealthMax(int health)
+    public int GetHealth() { return health_curr; }
+    public void SetHealthMax(int health)
     {
         health_curr = (int)((float)health * (float)health_curr / (float)health_max);
         health_max = health;
 
         UpdateHealth();
     }
-    public void takeDamage(int dmg)
+    public void TakeDamage(int dmg)
     {
-        if (dmg == 0) return;
+        if (dmg <= 0) return;
         health_curr = Mathf.Max(0, health_curr - dmg);
         UpdateHealth();
+        if(health_curr == 0)
+        {
+            GetComponent<PlayerController>().Die();
+        }
     }
-    public void healDamage(int heal) {
-        if (heal == 0) return;
+    public void HealDamage(int heal) {
+        if (heal <= 0) return;
         health_curr = Mathf.Min(health_max, health_curr + heal);
         UpdateHealth();
     }
 
-    public int getMana() { return mana_curr; }
-    public void setManaMax(int mana) {
+    public int GetMana() { return mana_curr; }
+    public void SetManaMax(int mana) {
         mana_max = mana;
         UpdateMana();
     }
-    public bool useMana(int qtt) {
-        if (mana_curr - qtt < 0) return false;
-
-        mana_curr -= qtt;
+    public bool HasMana(int qtt)
+    {
+        if (qtt < 0) return false;
+        return mana_curr >= qtt;
+    }
+    public void UseMana(int qtt) {
+        if (qtt <= 0) return;
+        mana_curr = Mathf.Max(0, mana_curr - qtt);
 
         UpdateMana();
-        return true;
     }
-    public void recoverMana(int qtt) {
+    public void RecoverMana(int qtt) {
+        if (qtt <= 0) return;
         mana_curr = Mathf.Min(mana_max, mana_curr + qtt);
 
         UpdateMana();
@@ -72,12 +80,12 @@ public class PlayerResourceManager : MonoBehaviour {
 
         for (int i = 0; i < heartsUI.Length; i++) {
             //If the player has that heart slot
-            if ((float)health_max / heartSprites.Length >= (i)) {
+            if ((float)health_max / heartSprites.Length >= i) {
                 //It will enable it
                 heartsUI[i].enabled = true;
 
                 heartsUI[i].sprite = heartSprites[Mathf.Min(aux, heartSprites.Length - 1)];
-                aux = Mathf.Max(0, aux - heartSprites.Length);
+                aux = Mathf.Max(0, aux - (heartSprites.Length - 1));
             }
             //Otherwise, it will disable that heart slot
             else heartsUI[i].enabled = false;
@@ -91,13 +99,13 @@ public class PlayerResourceManager : MonoBehaviour {
         for (int i = 0; i < manaUI.Length; i++)
         {
             //If the player has that heart slot
-            if ((float)mana_max / manaSprites.Length >= (i))
+            if ((float)mana_max / manaSprites.Length >= i)
             {
                 //It will enable it
                 manaUI[i].enabled = true;
 
                 manaUI[i].sprite = manaSprites[Mathf.Min(aux, manaSprites.Length - 1)];
-                aux = Mathf.Max(0, aux - manaSprites.Length);
+                aux = Mathf.Max(0, aux - (manaSprites.Length - 1));
             }
             //Otherwise, it will disable that heart slot
             else manaUI[i].enabled = false;

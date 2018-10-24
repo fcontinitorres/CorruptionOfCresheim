@@ -32,7 +32,7 @@ public class HumanForm: DruidicForm
         controller.SetAirControl(airControl);
         controller.SetRunSpeed(runSpeed);
         controller.SetDashForce(dashForce);
-        resourceManager.setHealthMax(health_max);
+        resourceManager.SetHealthMax(health_max);
     }
 
     //Applying the input

@@ -17,7 +17,7 @@ public class BirdForm: DruidicForm
 
     public override bool canBeTransformed()
     {
-        return resourceManager.getMana() >= manaCost;
+        return resourceManager.HasMana(manaCost);
     }
 
     private void Awake()
@@ -34,8 +34,8 @@ public class BirdForm: DruidicForm
         controller.SetAirControl(airControl);
         controller.SetRunSpeed(runSpeed);
         controller.SetDashForce(dashForce);
-        resourceManager.setHealthMax(health_max);
-        resourceManager.useMana(manaCost);
+        resourceManager.SetHealthMax(health_max);
+        resourceManager.UseMana(manaCost);
     }
 
     //Applying the input

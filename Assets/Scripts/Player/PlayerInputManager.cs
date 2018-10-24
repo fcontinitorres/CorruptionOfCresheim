@@ -8,15 +8,27 @@ public class PlayerInputManager : MonoBehaviour {
 
     private PlayerController controller;
 
-    public float horizontalMove = 0f;
-    public bool jump = false;
-    public bool crouch = false;
-    public int dash = 0;
+    public float horizontalMove;
+    public bool jump;
+    public bool crouch;
+    public int dash;
 
     private void Awake()
     {
         controller = GetComponent<PlayerController>();
+        ResetInput();
     }
+
+    private void ResetInput()
+    {
+        horizontalMove = 0f;
+        jump = false;
+        crouch = false;
+        dash = 0;
+    }
+
+    private void OnEnable() { ResetInput(); }
+    private void OnDisable() { ResetInput(); }
 
     private void Update()
     {
