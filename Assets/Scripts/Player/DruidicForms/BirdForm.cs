@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BirdForm: MonoBehaviour
+public class BirdForm: DruidicForm
 {
     private PlayerController controller;
     private PlayerInputManager inputManager;
@@ -13,6 +13,12 @@ public class BirdForm: MonoBehaviour
     public float airControl;
     public float runSpeed;
     public float dashForce;
+    public int manaCost;
+
+    public override bool canBeTransformed()
+    {
+        return resourceManager.getMana() >= manaCost;
+    }
 
     private void Awake()
     {
@@ -29,6 +35,7 @@ public class BirdForm: MonoBehaviour
         controller.SetRunSpeed(runSpeed);
         controller.SetDashForce(dashForce);
         resourceManager.setHealthMax(health_max);
+        resourceManager.useMana(manaCost);
     }
 
     //Applying the input

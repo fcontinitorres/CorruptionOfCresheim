@@ -3,6 +3,9 @@ using UnityEngine;
 // Take care of movement, transformations, everything that envolves the entity player physically, and the sprites.
 public class PlayerController : MonoBehaviour
 {
+    private PlayerInputManager inputManager;
+    private PlayerResourceManager resourseManager;
+
 	[Range(0, 1)] [SerializeField] private float crouchSpeed = .4f;		// Amount of maxSpeed applied to crouching movement. 1 = 100%
 	[Range(0, .3f)] [SerializeField] private float moveSmoothing = .05f;	// How much to smooth out the movement
 	
@@ -22,7 +25,7 @@ public class PlayerController : MonoBehaviour
     public float dashForce;     // Amount of force applied when dashing
 
     [SerializeField] private HumanForm humanForm;
-    [SerializeField] private MonoBehaviour[] druidicForms = new MonoBehaviour[1];
+    [SerializeField] private DruidicForm[] druidicForms;
     public Animator animator;
     public GameObject transformEffect;
 
@@ -40,6 +43,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
 	{
+        inputManager = GetComponent<PlayerInputManager>();
+        resourseManager = GetComponent<PlayerResourceManager>();
 		rigidbody_2D = GetComponent<Rigidbody2D>();
 
         //Disabling all druidic forms, including the humanoid
@@ -143,6 +148,8 @@ public class PlayerController : MonoBehaviour
         //If is humanoid, will transform to a bird
         if (humanForm.enabled)
         {
+            if (resourseManager.getMana() < ((BirdForm)druidicForms[0]).manaCost) return;
+
             humanForm.enabled = false;
             druidicForms[0].enabled = true;
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanForm: MonoBehaviour
+public class HumanForm: DruidicForm
 {
 	private PlayerController controller;
     private PlayerInputManager inputManager;
@@ -17,6 +17,8 @@ public class HumanForm: MonoBehaviour
 
     private bool keepCrouch = false;
     private bool lastJumpInput = false;
+
+    public override bool canBeTransformed() { return true; }
 
     private void Awake()
     {

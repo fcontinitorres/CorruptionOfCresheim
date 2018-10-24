@@ -12,7 +12,6 @@ public class PlayerInputManager : MonoBehaviour {
     public bool jump = false;
     public bool crouch = false;
     public int dash = 0;
-    public bool powerTransform = false;
 
     private void Awake()
     {
