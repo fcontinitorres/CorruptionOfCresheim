@@ -67,7 +67,7 @@ public class HumanForm: DruidicForm
         }
 
         //Dash
-        if (inputManager.dash != 0)
+        if (!keepCrouch && inputManager.dash != 0)
         {
             controller.Dash(inputManager.dash == 1);
             inputManager.dash = 0;
