@@ -9,7 +9,6 @@ public class TrapScript : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision);
         PlayerResourceManager prm = collision.GetComponentInParent<PlayerResourceManager>();
         if (prm)
         {
