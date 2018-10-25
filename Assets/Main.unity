@@ -1709,7 +1709,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &911426195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8643,7 +8643,7 @@ MonoBehaviour:
   attacks:
   - {fileID: 7400000, guid: 7a4c99bb6ed488040ab457eeb336225e, type: 2}
   - {fileID: 7400000, guid: 5a7e4a61aa7f5254ab2f63c06f27bd49, type: 2}
-  cooldownTolerance: 0.1
+  cooldownTolerance: 0.05
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 1024
