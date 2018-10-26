@@ -5,24 +5,24 @@ public abstract class DruidicForm : MonoBehaviour
 {
     protected PlayerController controller;
     protected PlayerInputManager inputManager;
-    protected Entity resourceManager;
+    protected Entity entity;
     protected Animator animator;
 
     [SerializeField] private GameObject transformEffect;
 
     [SerializeField] protected int health_max;      // Maximum health
+    [SerializeField] protected int manaCost;        // Mana cost to transform to this form
 
     [SerializeField] protected float jumpSpeed;     // Y speed when jumping
     [SerializeField] protected float airControl;    // Percentage of movement in the air
     [SerializeField] protected float runSpeed;      // Maximum running speed
-    [SerializeField] protected float dashForce;       // Amount of force applyed on dash
-    [SerializeField] protected int manaCost;        // Mana cost to transform to this form
+    [SerializeField] protected float dashForce;     // Amount of force applyed on dash
 
     private void Awake()
     {
         controller = GetComponentInParent<PlayerController>();
         inputManager = GetComponentInParent<PlayerInputManager>();
-        resourceManager = GetComponentInParent<Entity>();
+        entity = GetComponentInParent<Entity>();
         animator = GetComponentInParent<Animator>();
         FormAwake();
 
@@ -31,23 +31,23 @@ public abstract class DruidicForm : MonoBehaviour
 
     void OnEnable()
     {
+        Debug.Log("Enabling" + this);
+
+        //Enabling all child components
+        foreach (Collider2D child in GetComponents<Collider2D>()) child.enabled = true;
+        foreach (Transform child in gameObject.transform) child.gameObject.SetActive(true);
+
         //Setting jump speed, air control, run speed, dash force, max health and reducing mana
         controller.SetJumpSpeed(jumpSpeed);
         controller.SetAirControl(airControl);
         controller.SetRunSpeed(runSpeed);
         controller.SetDashForce(dashForce);
-        resourceManager.SetHealthMax(health_max);
-        resourceManager.UseMana(manaCost);
+        entity.SetHealthMax(health_max);
+        entity.UseMana(manaCost);
 
         // Creating the transform effect, and destroying it after it's finished
         GameObject anim = Instantiate(transformEffect, transform.position, Quaternion.identity);
         Destroy(anim, anim.GetComponentInParent<Animator>().runtimeAnimatorController.animationClips[0].length);
-
-        //Enabling all child colliders
-        Collider2D[] colls = GetComponents<Collider2D>();
-        for (int i = 0; i < colls.Length; i++) colls[i].enabled = true;
-        colls = GetComponentsInChildren<Collider2D>();
-        for (int i = 0; i < colls.Length; i++) colls[i].enabled = true;
 
         //Child enable method
         FormEnable();
@@ -55,15 +55,15 @@ public abstract class DruidicForm : MonoBehaviour
 
     private void OnDisable()
     {
-        //Enabling all child colliders
-        Collider2D[] colls = GetComponents<Collider2D>();
-        for (int i = 0; i < colls.Length; i++) colls[i].enabled = false;
-        colls = GetComponentsInChildren<Collider2D>();
-        for (int i = 0; i < colls.Length; i++) colls[i].enabled = false;
+        Debug.Log("Disabling" + this);
+        //Disabling all child components
+        foreach (Transform child in gameObject.transform) child.gameObject.SetActive(false);
+        foreach (Collider2D child in GetComponents<Collider2D>()) child.enabled = false;
+        
         FormDisable();
     }
 
-    public bool CanBeTransformed() { return resourceManager.HasMana(manaCost); }
+    public bool CanBeTransformed() { return entity.HasMana(manaCost); }
 
     private void FixedUpdate()
     {

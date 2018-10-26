@@ -6,7 +6,7 @@ public class PlayerAttackScript : MonoBehaviour {
 
     private Animator animator;
 
-	public float cooldownCurr;
+	[System.NonSerialized] public float cooldownCurr;
     [SerializeField] private string animatorLabel;
     [SerializeField] private AnimationClip[] attacks;
     [SerializeField] public float cooldownTolerance;

@@ -35,13 +35,14 @@ public class PlayerController : Entity
     public void SetIsOnGround(bool isOnGround) { this.isOnGround = isOnGround; }
     public bool IsOnGround() { return isOnGround; }
 
-    private void Awake()
+    protected override void Awake()
 	{
+        base.Awake();
         inputManager = GetComponent<PlayerInputManager>();
         animator = GetComponent<Animator>();
 		rigidbody_2D = GetComponent<Rigidbody2D>();
 
-        //Disabling all druidic forms, including the humanoid
+        //Disabling all druidic forms
         humanForm.enabled = false;
         for (int i = 0; i < druidicForms.Length; i++) druidicForms[i].enabled = false;
 
@@ -50,8 +51,8 @@ public class PlayerController : Entity
 
         animator.SetBool("IsDead", false);
 	}
-
-	public void Move(float move, bool jump)
+    
+    public void Move(float move, bool jump)
 	{
         move *= runSpeed;
         Vector3 targetVelocity = rigidbody_2D.velocity;
@@ -101,10 +102,7 @@ public class PlayerController : Entity
 
     public void Dash(bool dashRight)
     {
-        if (dashRight)
-        {
-            rigidbody_2D.AddForce(new Vector2(dashForce, 0));
-        }
+        if (dashRight) rigidbody_2D.AddForce(new Vector2(dashForce, 0));
         else rigidbody_2D.AddForce(new Vector2(-dashForce, 0));
     }
 
@@ -118,6 +116,7 @@ public class PlayerController : Entity
     // Transforming the player from humanoid to bird and vice-versa
     public void DruidicTransform()
     {
+        Debug.Log("Transforming");
         //If is humanoid, will transform to a bird
         if (humanForm.enabled)
         {
@@ -133,14 +132,14 @@ public class PlayerController : Entity
         {
             if (!humanForm.CanBeTransformed()) return;
 
-            druidicForms[0].enabled = false;
             humanForm.enabled = true;
+            druidicForms[0].enabled = false;
 
             animator.SetInteger("DruidicForm", 0);
         }
     }
 
-    public new void Die()
+    public override void Die()
     {
         if (!humanForm.enabled) DruidicTransform();
 

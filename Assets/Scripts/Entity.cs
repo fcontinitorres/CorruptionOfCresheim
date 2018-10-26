@@ -17,7 +17,7 @@ public class Entity : MonoBehaviour {
     [SerializeField] private int mana_max = 0;
     private int mana_curr = -1;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         SetHealthMax(health_max);
         SetManaMax(mana_max);
@@ -34,7 +34,7 @@ public class Entity : MonoBehaviour {
 
         UpdateHealth();
 
-        if (health_curr == 0) GetComponent<PlayerController>().Die();
+        if (health_curr == 0) Die();
     }
     public void TakeDamage(int dmg)
     {
@@ -115,7 +115,7 @@ public class Entity : MonoBehaviour {
         }
     }
 
-    public void Die() {
+    public virtual void Die() {
         Destroy(this.gameObject);
     }
 }
