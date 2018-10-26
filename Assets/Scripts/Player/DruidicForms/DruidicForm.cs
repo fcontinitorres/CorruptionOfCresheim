@@ -5,7 +5,7 @@ public abstract class DruidicForm : MonoBehaviour
 {
     protected PlayerController controller;
     protected PlayerInputManager inputManager;
-    protected PlayerResourceManager resourceManager;
+    protected Entity resourceManager;
     protected Animator animator;
 
     [SerializeField] private GameObject transformEffect;
@@ -22,7 +22,7 @@ public abstract class DruidicForm : MonoBehaviour
     {
         controller = GetComponentInParent<PlayerController>();
         inputManager = GetComponentInParent<PlayerInputManager>();
-        resourceManager = GetComponentInParent<PlayerResourceManager>();
+        resourceManager = GetComponentInParent<Entity>();
         animator = GetComponentInParent<Animator>();
         FormAwake();
 

@@ -1,17 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
-public class Entity : MonoBehaviour
-{
-    [SerializeField] private Image[] heartsUI;
-    [SerializeField] private Sprite[] heartSprites;
+public class Entity : MonoBehaviour {
+
+    public Image[] heartsUI;
+    public Sprite[] heartSprites;
 
     [SerializeField] private int health_max = 0;
     private float health_curr = -1;
 
-    [SerializeField] private Image[] manaUI;
-    [SerializeField] private Sprite[] manaSprites;
+    public Image[] manaUI;
+    public Sprite[] manaSprites;
 
     [SerializeField] private int mana_max = 0;
     private int mana_curr = -1;
@@ -38,6 +39,7 @@ public class Entity : MonoBehaviour
     public void TakeDamage(int dmg)
     {
         if (dmg <= 0) return;
+        Debug.Log(this + " taking damage " + dmg);
         health_curr = Mathf.Max(0, health_curr - dmg);
         UpdateHealth();
         if (health_curr == 0) Die();
@@ -50,8 +52,7 @@ public class Entity : MonoBehaviour
     }
 
     public int GetMana() { return mana_curr; }
-    public void SetManaMax(int mana)
-    {
+    public void SetManaMax(int mana) {
 
         if (mana_curr == -1) mana_curr = mana;
         else mana_curr = (int)((float)mana * (float)mana_curr / (float)mana_max);
@@ -63,30 +64,26 @@ public class Entity : MonoBehaviour
         if (qtt < 0) return false;
         return mana_curr >= qtt;
     }
-    public void UseMana(int qtt)
-    {
+    public void UseMana(int qtt) {
         if (qtt <= 0) return;
         mana_curr = Mathf.Max(0, mana_curr - qtt);
 
         UpdateMana();
     }
-    public void RecoverMana(int qtt)
-    {
+    public void RecoverMana(int qtt) {
         if (qtt <= 0) return;
         mana_curr = Mathf.Min(mana_max, mana_curr + qtt);
 
         UpdateMana();
     }
 
-    void UpdateHealth()
-    {
+    void UpdateHealth() {
+        if (heartsUI.Length == 0) return;
         int aux = (int)health_curr;
 
-        for (int i = 0; i < heartsUI.Length; i++)
-        {
+        for (int i = 0; i < heartsUI.Length; i++) {
             //If the player has that heart slot
-            if ((float)health_max / heartSprites.Length >= i)
-            {
+            if ((float)health_max / heartSprites.Length >= i) {
                 //It will enable it
                 heartsUI[i].enabled = true;
 
@@ -98,8 +95,8 @@ public class Entity : MonoBehaviour
         }
     }
 
-    void UpdateMana()
-    {
+    void UpdateMana() {
+        if (manaUI.Length == 0) return;
         int aux = mana_curr;
 
         for (int i = 0; i < manaUI.Length; i++)
@@ -118,5 +115,7 @@ public class Entity : MonoBehaviour
         }
     }
 
-    public void Die(){ Destroy(this); }
+    public void Die() {
+        Destroy(this.gameObject);
+    }
 }

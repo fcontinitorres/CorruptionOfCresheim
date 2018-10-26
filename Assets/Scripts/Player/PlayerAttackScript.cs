@@ -40,15 +40,23 @@ public class PlayerAttackScript : MonoBehaviour {
 
             animator.SetTrigger(animatorLabel + attackCount);
 
-            Collider2D[] enemiesToHit = Physics2D.OverlapBoxAll(colliderPoints[attackCount].position,
-                colliderSizes[attackCount], 0, whatIsEnemy);
-            for (int i = 0; i < enemiesToHit.Length; i++)
-            {
-                enemiesToHit[i].GetComponentInParent<Entity>().TakeDamage(attackDamages[attackCount]);
-            }
+            StartCoroutine(DelayedHit(attackCount));
 
             cooldownCurr = attacks[attackCount].length;
             attackCount++;
+        }
+    }
+
+    IEnumerator DelayedHit(int attackCount)
+    {
+        yield return new WaitForSeconds(attacks[attackCount].length/3);
+
+        Collider2D[] enemiesToHit = Physics2D.OverlapBoxAll(colliderPoints[attackCount].position,
+                colliderSizes[attackCount], 0, whatIsEnemy);
+
+        for (int i = 0; i < enemiesToHit.Length; i++)
+        {
+            enemiesToHit[i].GetComponentInParent<Entity>().TakeDamage(attackDamages[attackCount]);
         }
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // Take care of movement, transformations, everything that envolves the entity player physically, and the sprites.
-public class PlayerController : MonoBehaviour
+public class PlayerController : Entity
 {
     private PlayerInputManager inputManager;
     private Animator animator;
@@ -140,8 +140,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Die function
-    public void Die()
+    public new void Die()
     {
         if (!humanForm.enabled) DruidicTransform();
 
