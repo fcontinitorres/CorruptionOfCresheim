@@ -15,7 +15,6 @@ public class Projectile : MonoBehaviour
     private void Start() { Invoke("DestroyProjectile", lifeTime); }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        Debug.Log("Triggered");
         if ((whatIsSolid.value & 1 << collision.gameObject.layer) != 0)
         {
             if ((whatToDamage.value & 1 << collision.gameObject.layer) != 0)

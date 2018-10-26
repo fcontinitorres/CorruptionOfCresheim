@@ -13,6 +13,7 @@ public class PlayerInputManager : MonoBehaviour {
     public bool crouch;
     public int dash;
     public bool attack;
+    public bool specialAttack;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class PlayerInputManager : MonoBehaviour {
         crouch = false;
         dash = 0;
         attack = false;
+        specialAttack = false;
     }
 
     private void OnEnable() { ResetInput(); }
@@ -48,6 +50,9 @@ public class PlayerInputManager : MonoBehaviour {
 
         if (Input.GetButtonDown("Fire1")) attack = true;
         else if (Input.GetButtonUp("Fire1")) attack = false;
+
+        if (Input.GetButtonDown("Fire2")) specialAttack = true;
+        else if (Input.GetButtonUp("Fire2")) specialAttack = false;
 
         if (Input.GetButtonDown("Transform")) {
             controller.DruidicTransform();
