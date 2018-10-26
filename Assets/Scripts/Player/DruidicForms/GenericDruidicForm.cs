@@ -3,11 +3,13 @@ using System.Collections;
 
 public abstract class GenericDruidicForm : MonoBehaviour
 {
+    // Variables so the updates don't call GetComponentInParent all the time
     protected PlayerController controller;
     protected PlayerInputManager inputManager;
     protected Entity entity;
     protected Animator animator;
 
+    // Effect to be called when transforming to this form
     [SerializeField] private GameObject transformEffect;
 
     [SerializeField] protected int health_max;      // Maximum health
@@ -20,18 +22,15 @@ public abstract class GenericDruidicForm : MonoBehaviour
 
     protected virtual void Awake()
     {
+        // Getting variables
         controller = GetComponentInParent<PlayerController>();
         inputManager = GetComponentInParent<PlayerInputManager>();
         entity = GetComponentInParent<Entity>();
         animator = GetComponentInParent<Animator>();
-
-        OnDisable();
     }
 
     protected virtual void OnEnable()
     {
-        Debug.Log("Enabling " + this);
-
         //Enabling all child components
         foreach (Collider2D child in GetComponents<Collider2D>()) child.enabled = true;
         foreach (Transform child in gameObject.transform) child.gameObject.SetActive(true);
@@ -51,7 +50,6 @@ public abstract class GenericDruidicForm : MonoBehaviour
 
     protected virtual void OnDisable()
     {
-        Debug.Log("Disabling " + this);
         //Disabling all child components
         foreach (Transform child in gameObject.transform) child.gameObject.SetActive(false);
         foreach (Collider2D child in GetComponents<Collider2D>()) child.enabled = false;
@@ -59,10 +57,7 @@ public abstract class GenericDruidicForm : MonoBehaviour
 
     public bool CanBeTransformed() { return entity.HasMana(manaCost); }
 
-    private void FixedUpdate()
-    {
-        Move();
-    }
+    private void FixedUpdate() { Move(); }
 
     // Method to receive input and to interpret them
     public abstract void Move();

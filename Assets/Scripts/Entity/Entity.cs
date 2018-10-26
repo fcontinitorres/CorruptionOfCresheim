@@ -5,29 +5,36 @@ using UnityEngine.UI;
 
 public class Entity : MonoBehaviour {
 
+    // UI components to draw the heart sprites
     public Image[] heartsUI;
+    // Heart sprites
     public Sprite[] heartSprites;
 
+    // Max health and current health
     [SerializeField] private int health_max = 0;
     private float health_curr = -1;
 
+    // UI components to draw the mana sprites
     public Image[] manaUI;
+    // Mana sprites
     public Sprite[] manaSprites;
 
+    // Max mana and current mana
     [SerializeField] private int mana_max = 0;
     private int mana_curr = -1;
 
-    protected virtual void Awake()
-    {
+    protected virtual void Awake() {
+        // Initiating variables
         SetHealthMax(health_max);
         SetManaMax(mana_max);
+        //Updating UI
         UpdateHealth();
         UpdateMana();
     }
 
     public int GetHealth() { return (int)health_curr; }
-    public void SetHealthMax(int health)
-    {
+    public void SetHealthMax(int health) {
+        // Setting max health, will keep the current health proportional
         if (health_curr == -1) health_curr = health;
         else health_curr = Mathf.Max(0, (float)health * (float)health_curr / (float)health_max);
         health_max = health;
@@ -36,16 +43,15 @@ public class Entity : MonoBehaviour {
 
         if (health_curr == 0) Die();
     }
-    public void TakeDamage(int dmg)
-    {
+    public void TakeDamage(int dmg) {
+        // Taking damage, reducing to a minimum of zero
         if (dmg <= 0) return;
-        Debug.Log(this + " taking damage " + dmg);
         health_curr = Mathf.Max(0, health_curr - dmg);
         UpdateHealth();
         if (health_curr == 0) Die();
     }
-    public void HealDamage(int heal)
-    {
+    public void HealDamage(int heal) {
+        // Healing health
         if (heal <= 0) return;
         health_curr = Mathf.Min(health_max, health_curr + heal);
         UpdateHealth();
@@ -53,14 +59,12 @@ public class Entity : MonoBehaviour {
 
     public int GetMana() { return mana_curr; }
     public void SetManaMax(int mana) {
-
         if (mana_curr == -1) mana_curr = mana;
         else mana_curr = (int)((float)mana * (float)mana_curr / (float)mana_max);
         mana_max = mana;
         UpdateMana();
     }
-    public bool HasMana(int qtt)
-    {
+    public bool HasMana(int qtt) {
         if (qtt < 0) return false;
         return mana_curr >= qtt;
     }

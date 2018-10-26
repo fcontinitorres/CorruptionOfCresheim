@@ -48,8 +48,6 @@ public class PlayerController : Entity
 
         //Enabling only the humanoid
         humanForm.enabled = true;
-
-        animator.SetBool("IsDead", false);
 	}
     
     public void Move(float move, bool jump)
@@ -86,6 +84,7 @@ public class PlayerController : Entity
         if (move > 0 && !isFacingRight) Flip();
         else if (move < 0 && isFacingRight) Flip();
 
+        // Setting animations
         if(rigidbody_2D.velocity.y >= 0)
         {
             animator.SetFloat("MoveY+", rigidbody_2D.velocity.y);
@@ -102,13 +101,14 @@ public class PlayerController : Entity
 
     public void Dash(bool dashRight)
     {
+        // Simple dash function
         if (dashRight) rigidbody_2D.AddForce(new Vector2(dashForce, 0));
         else rigidbody_2D.AddForce(new Vector2(-dashForce, 0));
     }
 
 	private void Flip()
 	{
-		// Switch the way the player is labelled as facing.
+		// Switch the facing of the player
 		isFacingRight = !isFacingRight;
         transform.Rotate(0f, 180f, 0f);
 	}
@@ -116,7 +116,6 @@ public class PlayerController : Entity
     // Transforming the player from humanoid to bird and vice-versa
     public void DruidicTransform()
     {
-        Debug.Log("Transforming");
         //If is humanoid, will transform to a bird
         if (humanForm.enabled)
         {
@@ -141,9 +140,11 @@ public class PlayerController : Entity
 
     public override void Die()
     {
+        // Dia function, will transform back to human and trigger the death animation
         if (!humanForm.enabled) DruidicTransform();
 
-        animator.SetBool("IsDead", true);
+        animator.SetTrigger("IsDead");
+        // Blocking inputs
         inputManager.enabled = false;
     }
 }

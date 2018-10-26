@@ -4,53 +4,40 @@ using UnityEngine;
 
 public class HumanForm: GenericDruidicForm
 {
-    [SerializeField] private Collider2D standCollider;	// A collider that will be disabled when crouching
-    [Range(0, 1)] [SerializeField] private float crouchSpeed = .4f; // Amount of maxSpeed applied to crouching movement. 1 = 100%
+    // A collider that will be disabled when crouching
+    [SerializeField] private Collider2D standCollider;
+    // Amount of maxSpeed applied to crouching movement. 1 = 100%
+    [Range(0, 1)] [SerializeField] private float crouchSpeed = .4f;
 
+    // MeleeAttack for ground attacks
     [SerializeField] private MeleeAttack attacksGround;
+    // MeleeAttack for air attacks
     [SerializeField] private MeleeAttack attacksAir;
+    // RangedAttack for special attacks
     [SerializeField] private RangedAttack specialAttack;
-    [SerializeField] private int specialAttackManaCost;
 
+    // Bool to control when to keep crouching even if the input to crouch is false
     private bool keepCrouch = false;
+    // Bool to filter jump inputs
     private bool lastJumpInput = false;
 
-    protected override void OnDisable()
-    {
+    protected override void OnDisable() {
+        // Setting flags of on ceiling and on ground to false
         controller.SetIsOnCeiling(false);
         controller.SetIsOnGround(false);
         base.OnDisable();
     }
 
-    public override void Move()
-	{
+    public override void Move() {
         //Stop when ground attacking on ground and when doing the special attack
         if (attacksGround.cooldownCurr > attacksGround.cooldownTolerance ||
-            specialAttack.cooldownCurr > specialAttack.cooldownTolerance)
-        {
+                specialAttack.cooldownCurr > specialAttack.cooldownTolerance) {
             controller.Move(0, false);
             return;
         }
 
-        if (!inputManager.crouch && !keepCrouch)
-        {
-            if (inputManager.attack)
-            {
-                if (controller.IsOnGround()) attacksGround.Attack();
-                else attacksAir.Attack();
-            }
-            else if (controller.IsOnGround() && inputManager.specialAttack)
-            {
-                if (controller.HasMana(specialAttackManaCost)) specialAttack.Attack();
-                inputManager.specialAttack = false;
-            }
-        }
-
-
-
         //If the player was crouching, it will continue if there's a ceiling above him
-        if (inputManager.crouch || (!inputManager.crouch && controller.IsOnCeiling() && keepCrouch))
-        {
+        if (inputManager.crouch || (!inputManager.crouch && controller.IsOnCeiling() && keepCrouch)) {
             keepCrouch = true;
             //Applying crouch speed modifier
             inputManager.horizontalMove *= crouchSpeed;
@@ -59,13 +46,24 @@ public class HumanForm: GenericDruidicForm
             //Setting animator to crouch
             animator.SetBool("IsCrouching", true);
         }
-        else
-        {
+        else {
             keepCrouch = false;
             //Enabling the stand collider
             if (standCollider) standCollider.enabled = true;
             //Setting animator to not crouch
             animator.SetBool("IsCrouching", false);
+        }
+
+        // Attack only if not crouching
+        if (!keepCrouch) {
+            if (inputManager.attack) {
+                if (controller.IsOnGround()) attacksGround.Attack();
+                else attacksAir.Attack();
+            }
+            else if (controller.IsOnGround() && inputManager.specialAttack) {
+                specialAttack.Attack();
+                inputManager.specialAttack = false;
+            }
         }
 
         //Can't jump when there's a ceiling directly above
@@ -82,9 +80,10 @@ public class HumanForm: GenericDruidicForm
             inputManager.jump = false;
         }
 
+        // Moving
         controller.Move(inputManager.horizontalMove * Time.fixedDeltaTime, inputManager.jump);
 
-        //Dash
+        //Dash if not crouching
         if (!keepCrouch && inputManager.dash != 0)
         {
             controller.Dash(inputManager.dash == 1);
