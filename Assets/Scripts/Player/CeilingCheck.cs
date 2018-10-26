@@ -13,16 +13,19 @@ public class CeilingCheck : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("Trigger enter " + collision);
         controller.SetIsOnCeiling(true);
     }
 
     private void OnTriggerStay(Collider other)
     {
+        Debug.Log("Trigger stay " + other);
         controller.SetIsOnCeiling(true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        Debug.Log("Trigger exit " + collision);
         controller.SetIsOnCeiling(false);
     }
 }

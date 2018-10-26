@@ -36,12 +36,12 @@ public class HumanForm: GenericDruidicForm
         }
 
         //If the player was crouching, it will continue if there's a ceiling above him
-        if (inputManager.crouch || (!inputManager.crouch && controller.IsOnCeiling()))
+        if (inputManager.crouch || (!inputManager.crouch && controller.IsOnCeiling() && keepCrouch))
         {
             keepCrouch = true;
             //Applying crouch speed modifier
             inputManager.horizontalMove *= crouchSpeed;
-            //Disabling the stand collider
+            //Disabling the stand collider if on ground
             if (standCollider) standCollider.enabled = false;
             //Setting animator to crouch
             animator.SetBool("IsCrouching", true);
@@ -56,15 +56,24 @@ public class HumanForm: GenericDruidicForm
         }
 
         //Can't jump when there's a ceiling directly above
-        if (controller.IsOnCeiling()) inputManager.jump = false;
+        if (controller.IsOnCeiling())
+        {
+            Debug.Log("Player on ceiling");
+            inputManager.jump = false;
+        }
 
         //Filtering the jump input
-        if (lastJumpInput && inputManager.jump) inputManager.jump = false;
+        if (lastJumpInput && inputManager.jump)
+        {
+            Debug.Log("Filtering jump input");
+            inputManager.jump = false;
+        }
         else lastJumpInput = inputManager.jump;
 
         //If the player isn't grounded, it can't double jump
         if (inputManager.jump && !controller.IsOnGround())
         {
+            Debug.Log("Disabling double jump");
             //Moving it, without double jumping
             inputManager.jump = false;
         }
