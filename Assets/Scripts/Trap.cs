@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrapScript : MonoBehaviour {
+public class Trap : MonoBehaviour {
 
     public int damageHealth;
     public int damageMana;

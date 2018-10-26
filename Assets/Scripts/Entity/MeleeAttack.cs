@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackScript : MonoBehaviour {
+public class MeleeAttack : MonoBehaviour {
 
     private Animator animator;
 

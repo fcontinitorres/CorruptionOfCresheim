@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HumanForm: GenericDruidicForm
 {
-    [SerializeField] private PlayerAttackScript attacksGround;
-    [SerializeField] private PlayerAttackScript attacksAir;
+    [SerializeField] private MeleeAttack attacksGround;
+    [SerializeField] private MeleeAttack attacksAir;
     [SerializeField] private Collider2D standCollider;	// A collider that will be disabled when crouching
 
     [Range(0, 1)] [SerializeField] private float crouchSpeed = .4f; // Amount of maxSpeed applied to crouching movement. 1 = 100%
