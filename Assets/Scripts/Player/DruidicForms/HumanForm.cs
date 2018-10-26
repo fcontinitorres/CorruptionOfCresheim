@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanForm: DruidicForm
+public class HumanForm: GenericDruidicForm
 {
     [SerializeField] private PlayerAttackScript attacksGround;
     [SerializeField] private PlayerAttackScript attacksAir;
@@ -13,11 +13,11 @@ public class HumanForm: DruidicForm
     private bool keepCrouch = false;
     private bool lastJumpInput = false;
 
-    public override void FormAwake() { }
-    public override void FormEnable() { }
-    public override void FormDisable() {
+    protected override void OnDisable()
+    {
         controller.SetIsOnCeiling(false);
         controller.SetIsOnGround(false);
+        base.OnDisable();
     }
 
     public override void Move()

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class DruidicForm : MonoBehaviour
+public abstract class GenericDruidicForm : MonoBehaviour
 {
     protected PlayerController controller;
     protected PlayerInputManager inputManager;
@@ -18,20 +18,19 @@ public abstract class DruidicForm : MonoBehaviour
     [SerializeField] protected float runSpeed;      // Maximum running speed
     [SerializeField] protected float dashForce;     // Amount of force applyed on dash
 
-    private void Awake()
+    protected virtual void Awake()
     {
         controller = GetComponentInParent<PlayerController>();
         inputManager = GetComponentInParent<PlayerInputManager>();
         entity = GetComponentInParent<Entity>();
         animator = GetComponentInParent<Animator>();
-        FormAwake();
 
         OnDisable();
     }
 
-    void OnEnable()
+    protected virtual void OnEnable()
     {
-        Debug.Log("Enabling" + this);
+        Debug.Log("Enabling " + this);
 
         //Enabling all child components
         foreach (Collider2D child in GetComponents<Collider2D>()) child.enabled = true;
@@ -48,19 +47,14 @@ public abstract class DruidicForm : MonoBehaviour
         // Creating the transform effect, and destroying it after it's finished
         GameObject anim = Instantiate(transformEffect, transform.position, Quaternion.identity);
         Destroy(anim, anim.GetComponentInParent<Animator>().runtimeAnimatorController.animationClips[0].length);
-
-        //Child enable method
-        FormEnable();
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
-        Debug.Log("Disabling" + this);
+        Debug.Log("Disabling " + this);
         //Disabling all child components
         foreach (Transform child in gameObject.transform) child.gameObject.SetActive(false);
         foreach (Collider2D child in GetComponents<Collider2D>()) child.enabled = false;
-        
-        FormDisable();
     }
 
     public bool CanBeTransformed() { return entity.HasMana(manaCost); }
@@ -69,11 +63,6 @@ public abstract class DruidicForm : MonoBehaviour
     {
         Move();
     }
-
-    // Method to do stuff that happens when transforming to this form and when distransforming
-    public abstract void FormAwake();
-    public abstract void FormEnable();
-    public abstract void FormDisable();
 
     // Method to receive input and to interpret them
     public abstract void Move();

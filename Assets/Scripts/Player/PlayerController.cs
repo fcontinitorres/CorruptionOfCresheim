@@ -21,7 +21,7 @@ public class PlayerController : Entity
     private float dashForce;
 
     [SerializeField] private HumanForm humanForm;
-    [SerializeField] private DruidicForm[] druidicForms;
+    [SerializeField] private GenericDruidicForm[] druidicForms;
 
     //Parameters that change when transforming between druidic forms
     public void SetJumpSpeed(float x) { jumpSpeed = x; }
