@@ -137,7 +137,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 5272298}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.05, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1858647841}
@@ -8753,7 +8753,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transformEffect: {fileID: 1377966392062780, guid: da43317197b321b40b9b93943655437e,
     type: 2}
-  health_max: 16
+  health_max: 30
   manaCost: 0
   jumpSpeed: 45
   airControl: 0.2
@@ -8894,7 +8894,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transformEffect: {fileID: 1377966392062780, guid: da43317197b321b40b9b93943655437e,
     type: 2}
-  health_max: 4
+  health_max: 8
   manaCost: 1
   jumpSpeed: 10
   airControl: 1
@@ -9299,7 +9299,7 @@ MonoBehaviour:
   animatorLabel: 
   attacks: []
   hitAnimationProportion: 0
-  cooldownTolerance: 0.5
+  cooldownTolerance: 1.3
   projectiles:
   - {fileID: 1802224030010720, guid: 259d09f512b4599438c5f8e9ff44cb0f, type: 2}
   firePoints:
@@ -9370,7 +9370,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1988037552}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.24, y: 1.55, z: -0.087890625}
+  m_LocalPosition: {x: -20.25, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

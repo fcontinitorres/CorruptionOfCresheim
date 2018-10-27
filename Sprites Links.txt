@@ -3,6 +3,3 @@ Sprites Links
 	Background, tiles and props: https://ansimuz.itch.io/sunny-land-pixel-game-art
 	Health hearts: https://fliflifly.itch.io/hearts-and-health-bar
 	Fire Ball: https://ansimuz.itch.io/gothicvania-patreon-collection/
-	
-Sounds Links
-	https://psionicgames.itch.io/30-free-firework-sfx
