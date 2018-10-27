@@ -8,17 +8,20 @@ public class MeleeAttack : MonoBehaviour {
     private Entity entity;
     //Player animator to trigger attack animations
     private Animator animator;
-
-    // Current cooldown
-    [System.NonSerialized] public float cooldownCurr;
     //Label to trigger the corresponding animation, eg: "Attack_Ground"
     [SerializeField] private string animatorLabel;
+    //Player audio manager to trigger attack sounds
+    private AudioManager audioManager;
+    [SerializeField] private string audioLabel;
+
     //Animation clips of the attack, to get the duration of the attack
     [SerializeField] private AnimationClip[] attacks;
     //Float to represent at what point of the current animation the attack will hit, eg: 0.5 means the attacks will hit in the middle of the animation
     [Range(0, 1)] [SerializeField] private float hitAnimationProportion;
     //Float to represent the time of input tolerance to continue the combo animation
     [SerializeField] public float cooldownTolerance;
+    // Current cooldown
+    [HideInInspector] public float cooldownCurr;
 
     // Layermask to define what is a enemy
     [SerializeField] private LayerMask whatIsEnemy;
@@ -39,6 +42,7 @@ public class MeleeAttack : MonoBehaviour {
         if (manaUsage > 0)
             entity = GetComponentInParent<Entity>();
         animator = GetComponentInParent<Animator>();
+        audioManager = GetComponentInParent<AudioManager>();
 
         cooldownCurr = 0;
         attackCount = 0;
@@ -85,17 +89,20 @@ public class MeleeAttack : MonoBehaviour {
 
     IEnumerator DelayedHit(int attackCount)
     {
+        if (entity) {
+            if (!entity.HasMana(manaUsage))
+                yield break;
+            entity.UseMana(manaUsage);
+        }
+
         // If has an attack animation
         if (attacks.Length > 0) {
             // Will wait the proportion time to hit
             yield return new WaitForSeconds(attacks[attackCount].length * hitAnimationProportion);
         }
 
-        if (entity) {
-            if (!entity.HasMana(manaUsage))
-                yield break;
-            entity.UseMana(manaUsage);
-        }
+        if (audioManager)
+            audioManager.Play(audioLabel + attackCount);
 
         // Getting possible hit targets
         Collider2D[] enemiesToHit = Physics2D.OverlapBoxAll(colliderPoints[attackCount].position,
