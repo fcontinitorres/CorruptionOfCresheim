@@ -1,0 +1,5 @@
+Sprites Links
+	Hero: https://rvros.itch.io/animated-pixel-hero
+	Background, tiles and props: https://ansimuz.itch.io/sunny-land-pixel-game-art
+	Health hearts: https://fliflifly.itch.io/hearts-and-health-bar
+	Fire Ball: https://ansimuz.itch.io/gothicvania-patreon-collection/
