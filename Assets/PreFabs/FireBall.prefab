@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   lifeTime: 1
-  damage: 4
+  damage: 2
   whatIsSolid:
     serializedVersion: 2
     m_Bits: 1281

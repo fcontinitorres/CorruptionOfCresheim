@@ -36,7 +36,8 @@ public class MeleeAttack : MonoBehaviour {
 
     private void Awake()
     {
-        entity = GetComponentInParent<Entity>();
+        if (manaUsage > 0)
+            entity = GetComponentInParent<Entity>();
         animator = GetComponentInParent<Animator>();
 
         cooldownCurr = 0;
@@ -47,7 +48,8 @@ public class MeleeAttack : MonoBehaviour {
     {
         // Decreasing current cooldown
         cooldownCurr = Mathf.Max(0, cooldownCurr - Time.deltaTime);
-        animator.SetFloat(animatorLabel+"_Cooldown", cooldownCurr);
+        if (animator)
+            animator.SetFloat(animatorLabel + "_Cooldown", cooldownCurr);
     }
 
     public void Attack()
@@ -58,28 +60,42 @@ public class MeleeAttack : MonoBehaviour {
             // If the cooldown is 0, will reset combo
             if (cooldownCurr == 0) attackCount = 0;
             // Breaking the combo when there's no following attack
-            if (attackCount >= attacks.Length) return;
+            if (attacks.Length > 0 && attackCount >= attacks.Length)
+                return;
 
             // Triggering animation
-            animator.SetTrigger(animatorLabel + attackCount);
+            if (animator)
+                animator.SetTrigger(animatorLabel + attackCount);
 
             //Starting the delayed routine to hit all targets
             StartCoroutine(DelayedHit(attackCount));
 
-            // Setting current attack cooldown
-            cooldownCurr = attacks[attackCount].length;
-            // Increasing attack combo
-            attackCount++;
+            // If has an attack animation
+            if (attacks.Length > 0) {
+                // Setting current attack cooldown
+                cooldownCurr = attacks[attackCount].length;
+                // Increasing attack combo
+                attackCount++;
+            }
+            // Otherwise will wait cooldownTolerance seconds
+            else
+                cooldownCurr = 2 * cooldownTolerance;
         }
     }
 
     IEnumerator DelayedHit(int attackCount)
     {
-        // Wait the proportion time to hit
-        yield return new WaitForSeconds(attacks[attackCount].length*hitAnimationProportion);
+        // If has an attack animation
+        if (attacks.Length > 0) {
+            // Will wait the proportion time to hit
+            yield return new WaitForSeconds(attacks[attackCount].length * hitAnimationProportion);
+        }
 
-        if (!entity.HasMana(manaUsage)) yield break;
-        entity.UseMana(manaUsage);
+        if (entity) {
+            if (!entity.HasMana(manaUsage))
+                yield break;
+            entity.UseMana(manaUsage);
+        }
 
         // Getting possible hit targets
         Collider2D[] enemiesToHit = Physics2D.OverlapBoxAll(colliderPoints[attackCount].position,

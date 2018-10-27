@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Trap : MonoBehaviour {
+public class CollisionTrap : MonoBehaviour {
 
     public int damageHealth;
     public int damageMana;

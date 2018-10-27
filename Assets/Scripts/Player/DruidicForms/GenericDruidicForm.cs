@@ -27,6 +27,8 @@ public abstract class GenericDruidicForm : MonoBehaviour
         inputManager = GetComponentInParent<PlayerInputManager>();
         entity = GetComponentInParent<Entity>();
         animator = GetComponentInParent<Animator>();
+
+        OnDisable();
     }
 
     protected virtual void OnEnable()

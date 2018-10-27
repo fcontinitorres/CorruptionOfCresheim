@@ -23,8 +23,6 @@ public class RangedAttack : MonoBehaviour
     [SerializeField] private GameObject[] projectiles;
     // The middle of the attack hit box
     [SerializeField] private Transform[] firePoints;
-    // Attacks of each damage
-    [SerializeField] private int[] attackDamages;
     // Current attack count
     private int attackCount;
 
@@ -33,7 +31,8 @@ public class RangedAttack : MonoBehaviour
 
     private void Awake()
     {
-        entity = GetComponentInParent<Entity>();
+        if (manaUsage > 0)
+            entity = GetComponentInParent<Entity>();
         animator = GetComponentInParent<Animator>();
 
         cooldownCurr = 0;
@@ -44,39 +43,54 @@ public class RangedAttack : MonoBehaviour
     {
         // Decreasing current cooldown
         cooldownCurr = Mathf.Max(0, cooldownCurr - Time.deltaTime);
-        animator.SetFloat(animatorLabel + "_Cooldown", cooldownCurr);
+        if (animator)
+            animator.SetFloat(animatorLabel + "_Cooldown", cooldownCurr);
     }
 
     public void Attack()
     {
         // If the attack has the necessary cooldown
-        if (cooldownCurr <= cooldownTolerance)
-        {
+        if (cooldownCurr <= cooldownTolerance) {
             // If the cooldown is 0, will reset combo
-            if (cooldownCurr == 0) attackCount = 0;
+            if (cooldownCurr == 0)
+                attackCount = 0;
             // Breaking the combo when there's no following attack
-            if (attackCount >= attacks.Length) return;
+            if (attacks.Length > 0 && attackCount >= attacks.Length)
+                return;
 
             // Triggering animation
-            animator.SetTrigger(animatorLabel + attackCount);
+            if (animator)
+                animator.SetTrigger(animatorLabel + attackCount);
 
             // Firing the current projectile
             StartCoroutine(DelayedShot(attackCount));
 
-            // Setting current attack cooldown
-            cooldownCurr = attacks[attackCount].length;
-            // Increasing attack combo
-            attackCount++;
+            // If has an attack animation
+            if (attacks.Length > 0) {
+                // Setting current attack cooldown
+                cooldownCurr = attacks[attackCount].length;
+                // Increasing attack combo
+                attackCount++;
+            }
+            // Otherwise will wait cooldownTolerance seconds
+            else
+                cooldownCurr = 2 * cooldownTolerance;
         }
     }
 
     IEnumerator DelayedShot(int attackCount)
     {
-        // Wait the proportion time to hit
-        yield return new WaitForSeconds(attacks[attackCount].length * hitAnimationProportion);
+        // If has an attack animation
+        if (attacks.Length > 0) {
+            // Will wait the proportion time to hit
+            yield return new WaitForSeconds(attacks[attackCount].length * hitAnimationProportion);
+        }
 
-        if (!entity.HasMana(manaUsage)) yield break;
-        entity.UseMana(manaUsage);
+        if (entity) {
+            if (!entity.HasMana(manaUsage))
+                yield break;
+            entity.UseMana(manaUsage);
+        }
 
         Instantiate(projectiles[attackCount % projectiles.Length],
                 firePoints[attackCount].position, firePoints[attackCount].rotation);

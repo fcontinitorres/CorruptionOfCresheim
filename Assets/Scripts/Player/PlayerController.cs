@@ -138,13 +138,20 @@ public class PlayerController : Entity
         }
     }
 
+    public override void TakeDamage(int dmg) {
+        if(dmg > 0) animator.SetTrigger("GotHurt");
+        base.TakeDamage(dmg);
+    }
+
     public override void Die()
     {
         // Dia function, will transform back to human and trigger the death animation
         if (!humanForm.enabled) DruidicTransform();
 
-        animator.SetTrigger("IsDead");
         // Blocking inputs
         inputManager.enabled = false;
+        gameObject.layer = LayerMask.NameToLayer("DeadEntities");
+
+        animator.SetTrigger("IsDead");
     }
 }

@@ -43,7 +43,7 @@ public class Entity : MonoBehaviour {
 
         if (health_curr == 0) Die();
     }
-    public void TakeDamage(int dmg) {
+    public virtual void TakeDamage(int dmg) {
         // Taking damage, reducing to a minimum of zero
         if (dmg <= 0) return;
         health_curr = Mathf.Max(0, health_curr - dmg);

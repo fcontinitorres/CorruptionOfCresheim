@@ -19,6 +19,7 @@ public class Projectile : MonoBehaviour
         {
             if ((whatToDamage.value & 1 << collision.gameObject.layer) != 0)
             {
+                Debug.Log("Dealing " + damage + " points of damage to " + collision.gameObject);
                 collision.gameObject.GetComponentInParent<Entity>().TakeDamage(damage);
             }
             DestroyProjectile();
