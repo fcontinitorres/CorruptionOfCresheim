@@ -970,12 +970,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGlobalInstance: 0
   sounds:
-  - {fileID: 114502786326297002, guid: 1ca78c43c8e143d4ba2f1fe504cde27a, type: 2}
+  - {fileID: 114337021748520214, guid: 89916c9a5fba2274d93987841dd45dea, type: 2}
+  - {fileID: 114337021748520214, guid: 36aa711068be04a4da967e6945054b30, type: 2}
   - {fileID: 114337021748520214, guid: c6618fe2df76a4848beea1b68d96eb49, type: 2}
   - {fileID: 114337021748520214, guid: 27253aa4c396afc438312c445a87d596, type: 2}
   - {fileID: 114337021748520214, guid: 653b848a136e47845b30089af1ff364c, type: 2}
-  - {fileID: 114337021748520214, guid: 89916c9a5fba2274d93987841dd45dea, type: 2}
-  - {fileID: 114337021748520214, guid: 36aa711068be04a4da967e6945054b30, type: 2}
+  - {fileID: 114502786326297002, guid: 1ca78c43c8e143d4ba2f1fe504cde27a, type: 2}
 --- !u!50 &568656672
 Rigidbody2D:
   serializedVersion: 4

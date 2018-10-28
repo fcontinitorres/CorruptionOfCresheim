@@ -80,7 +80,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4c8ff4ce683f172478c8fa27ec12b212, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.7
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -202,8 +202,9 @@ MonoBehaviour:
   whatToDamage:
     serializedVersion: 2
     m_Bits: 1280
-  destroyEffect: {fileID: 0}
-  destroyEffectLifeTime: 0
+  destroyEffect: {fileID: 1377966392062780, guid: da43317197b321b40b9b93943655437e,
+    type: 2}
+  destroyEffectLifeTime: 1
 --- !u!212 &212872209890449936
 SpriteRenderer:
   m_ObjectHideFlags: 1
