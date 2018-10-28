@@ -972,6 +972,10 @@ MonoBehaviour:
   sounds:
   - {fileID: 114502786326297002, guid: 1ca78c43c8e143d4ba2f1fe504cde27a, type: 2}
   - {fileID: 114337021748520214, guid: c6618fe2df76a4848beea1b68d96eb49, type: 2}
+  - {fileID: 114337021748520214, guid: 27253aa4c396afc438312c445a87d596, type: 2}
+  - {fileID: 114337021748520214, guid: 653b848a136e47845b30089af1ff364c, type: 2}
+  - {fileID: 114337021748520214, guid: 89916c9a5fba2274d93987841dd45dea, type: 2}
+  - {fileID: 114337021748520214, guid: 36aa711068be04a4da967e6945054b30, type: 2}
 --- !u!50 &568656672
 Rigidbody2D:
   serializedVersion: 4
@@ -3399,52 +3403,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1460695289}
   m_CullTransparentMesh: 0
---- !u!1001 &1470686635
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4033661068701194, guid: c6618fe2df76a4848beea1b68d96eb49, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033661068701194, guid: c6618fe2df76a4848beea1b68d96eb49, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033661068701194, guid: c6618fe2df76a4848beea1b68d96eb49, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033661068701194, guid: c6618fe2df76a4848beea1b68d96eb49, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033661068701194, guid: c6618fe2df76a4848beea1b68d96eb49, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033661068701194, guid: c6618fe2df76a4848beea1b68d96eb49, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033661068701194, guid: c6618fe2df76a4848beea1b68d96eb49, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4033661068701194, guid: c6618fe2df76a4848beea1b68d96eb49, type: 2}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 1779503702908392, guid: c6618fe2df76a4848beea1b68d96eb49, type: 2}
-      propertyPath: m_Name
-      value: Player_Sword_Swing
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c6618fe2df76a4848beea1b68d96eb49, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1 &1486209754
 GameObject:
   m_ObjectHideFlags: 0
@@ -8840,7 +8798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animatorLabel: Att_Ground
-  audioLabel: pl_sword
+  audioLabel: pl_att_ground
   attacks:
   - {fileID: 7400000, guid: 9a2e2b157806d5e46b19bda7e94abe5f, type: 2}
   - {fileID: 7400000, guid: 3f0fb74a606c8fe4a8bc2b2cfb7103d7, type: 2}
@@ -8873,7 +8831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animatorLabel: Att_Air
-  audioLabel: pl_sword
+  audioLabel: pl_att_air
   attacks:
   - {fileID: 7400000, guid: 7a4c99bb6ed488040ab457eeb336225e, type: 2}
   - {fileID: 7400000, guid: 5a7e4a61aa7f5254ab2f63c06f27bd49, type: 2}

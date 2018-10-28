@@ -61,7 +61,7 @@ MonoBehaviour:
   pitch: 1
   pitchVariance: 0.1
   delays:
-  - 0.15
+  - 0.25
   cooldowns: []
   loop: 0
   forceStop: 0
