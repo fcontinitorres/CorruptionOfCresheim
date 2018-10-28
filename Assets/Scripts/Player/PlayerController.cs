@@ -146,6 +146,7 @@ public class PlayerController : Entity
         // Blocking inputs
         inputManager.enabled = false;
         gameObject.layer = LayerMask.NameToLayer("DeadEntities");
+        audioManager.Stop("pl_ft_dirt");
 
         animator.SetTrigger("IsDead");
     }

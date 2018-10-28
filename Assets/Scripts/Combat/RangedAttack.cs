@@ -32,8 +32,7 @@ public class RangedAttack : MonoBehaviour
     // Mana consumption
     [SerializeField] private int manaUsage;
 
-    private void Awake()
-    {
+    private void Awake() {
         if (manaUsage > 0)
             entity = GetComponentInParent<Entity>();
         animator = GetComponentInParent<Animator>();
@@ -43,16 +42,14 @@ public class RangedAttack : MonoBehaviour
         attackCount = 0;
     }
 
-    private void FixedUpdate()
-    {
+    private void FixedUpdate() {
         // Decreasing current cooldown
         cooldownCurr = Mathf.Max(0, cooldownCurr - Time.deltaTime);
         if (animator)
             animator.SetFloat(animatorLabel + "_Cooldown", cooldownCurr);
     }
 
-    public void Attack()
-    {
+    public void Attack() {
         // If the attack has the necessary cooldown
         if (cooldownCurr <= cooldownTolerance) {
             // If the cooldown is 0, will reset combo
@@ -85,8 +82,7 @@ public class RangedAttack : MonoBehaviour
         }
     }
 
-    IEnumerator DelayedShot(int attackCount)
-    {
+    IEnumerator DelayedShot(int attackCount) {
         // If has an attack animation
         if (attacks.Length > 0) {
             // Will wait the proportion time to hit

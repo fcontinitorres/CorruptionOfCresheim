@@ -38,21 +38,21 @@ public class AudioManager : MonoBehaviour {
     // Playing the requested song
     public void Play(string soundName) {
         Sound s = Array.Find(sounds, sound => sound.name == soundName);
-        if (s) s.Play();
+        if (s != null) s.Play();
         else Debug.LogWarning("Couldn't find Sound: " + soundName);
     }
     
     // Stopping the requested song
     public void Stop(string soundName) {
         Sound s = Array.Find(sounds, sound => sound.name == soundName);
-        if (s) s.Stop();
+        if (s != null) s.Stop();
         else Debug.LogWarning("Couldn't find Sound: " + soundName);
     }
 
     // Setting loop for the requested song
     public void SetLoop(string soundName, bool loop) {
         Sound s = Array.Find(sounds, sound => sound.name == soundName);
-        if (s) s.loop = loop;
+        if (s != null) s.loop = loop;
         else Debug.LogWarning("Couldn't find Sound: " + soundName);
     }
 }

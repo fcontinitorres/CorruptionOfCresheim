@@ -37,8 +37,7 @@ public class MeleeAttack : MonoBehaviour {
     // Mana consumption
     [SerializeField] private int manaUsage;
 
-    private void Awake()
-    {
+    private void Awake() {
         if (manaUsage > 0)
             entity = GetComponentInParent<Entity>();
         animator = GetComponentInParent<Animator>();
@@ -48,19 +47,16 @@ public class MeleeAttack : MonoBehaviour {
         attackCount = 0;
     }
 
-    private void FixedUpdate()
-    {
+    private void FixedUpdate() {
         // Decreasing current cooldown
         cooldownCurr = Mathf.Max(0, cooldownCurr - Time.deltaTime);
         if (animator)
             animator.SetFloat(animatorLabel + "_Cooldown", cooldownCurr);
     }
 
-    public void Attack()
-    {
+    public void Attack() {
         // If the attack has the necessary cooldown
-        if(cooldownCurr <= cooldownTolerance)
-        {
+        if(cooldownCurr <= cooldownTolerance) {
             // If the cooldown is 0, will reset combo
             if (cooldownCurr == 0) attackCount = 0;
             // Breaking the combo when there's no following attack
@@ -87,8 +83,7 @@ public class MeleeAttack : MonoBehaviour {
         }
     }
 
-    IEnumerator DelayedHit(int attackCount)
-    {
+    IEnumerator DelayedHit(int attackCount) {
         if (entity) {
             if (!entity.HasMana(manaUsage))
                 yield break;
@@ -108,8 +103,7 @@ public class MeleeAttack : MonoBehaviour {
         Collider2D[] enemiesToHit = Physics2D.OverlapBoxAll(colliderPoints[attackCount].position,
                 colliderSizes[attackCount], 0, whatIsEnemy);
 
-        for (int i = 0; i < enemiesToHit.Length; i++)
-        {
+        for (int i = 0; i < enemiesToHit.Length; i++) {
             //Hitting
             enemiesToHit[i].GetComponentInParent<Entity>().TakeDamage(attackDamages[attackCount]);
         }

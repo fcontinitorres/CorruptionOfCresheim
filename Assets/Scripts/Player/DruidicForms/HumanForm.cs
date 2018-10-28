@@ -74,8 +74,7 @@ public class HumanForm: GenericDruidicForm
         else lastJumpInput = inputManager.jump;
 
         //If the player isn't grounded, it can't double jump
-        if (inputManager.jump && !controller.IsOnGround())
-        {
+        if (inputManager.jump && !controller.IsOnGround()) {
             //Moving it, without double jumping
             inputManager.jump = false;
         }
@@ -84,8 +83,7 @@ public class HumanForm: GenericDruidicForm
         controller.Move(inputManager.horizontalMove * Time.fixedDeltaTime, inputManager.jump);
 
         //Dash if not crouching
-        if (!keepCrouch && inputManager.dash != 0)
-        {
+        if (!keepCrouch && inputManager.dash != 0) {
             controller.Dash(inputManager.dash == 1);
             inputManager.dash = 0;
         }

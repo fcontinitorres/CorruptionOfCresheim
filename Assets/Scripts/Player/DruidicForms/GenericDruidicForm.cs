@@ -20,8 +20,7 @@ public abstract class GenericDruidicForm : MonoBehaviour
     [SerializeField] protected float runSpeed;      // Maximum running speed
     [SerializeField] protected float dashForce;     // Amount of force applyed on dash
 
-    protected virtual void Awake()
-    {
+    protected virtual void Awake() {
         // Getting variables
         controller = GetComponentInParent<PlayerController>();
         inputManager = GetComponentInParent<PlayerInputManager>();
@@ -31,8 +30,7 @@ public abstract class GenericDruidicForm : MonoBehaviour
         OnDisable();
     }
 
-    protected virtual void OnEnable()
-    {
+    protected virtual void OnEnable() {
         //Enabling all child components
         foreach (Collider2D child in GetComponents<Collider2D>()) child.enabled = true;
         foreach (Transform child in gameObject.transform) child.gameObject.SetActive(true);
@@ -50,8 +48,7 @@ public abstract class GenericDruidicForm : MonoBehaviour
         Destroy(anim, anim.GetComponentInParent<Animator>().runtimeAnimatorController.animationClips[0].length);
     }
 
-    protected virtual void OnDisable()
-    {
+    protected virtual void OnDisable() {
         //Disabling all child components
         foreach (Transform child in gameObject.transform) child.gameObject.SetActive(false);
         foreach (Collider2D child in GetComponents<Collider2D>()) child.enabled = false;
