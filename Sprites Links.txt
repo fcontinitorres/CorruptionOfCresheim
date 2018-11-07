@@ -3,3 +3,10 @@ Sprites Links
 	Background, tiles and props: https://ansimuz.itch.io/sunny-land-pixel-game-art
 	Health hearts: https://fliflifly.itch.io/hearts-and-health-bar
 	Fire Ball: https://ansimuz.itch.io/gothicvania-patreon-collection/
+	
+Sounds:
+	Sword Swing: https://opengameart.org/content/rpg-sound-pack
+	Fire Ball: https://opengameart.org/content/fire-evil-spell
+	Footsteps: https://opengameart.org/content/fantasy-sound-effects-library
+
+	
