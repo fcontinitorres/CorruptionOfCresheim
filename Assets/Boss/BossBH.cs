@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossBH : MonoBehaviour {
+public class BossBH : Entity {
 
     public GameObject player;
 

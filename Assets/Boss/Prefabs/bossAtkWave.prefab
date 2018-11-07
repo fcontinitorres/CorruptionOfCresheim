@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4225893208521770}
   - component: {fileID: 212225018799515996}
+  - component: {fileID: 114055587040214116}
   - component: {fileID: 60429131359459560}
   - component: {fileID: 114360629757038964}
   m_Layer: 0
@@ -75,6 +76,32 @@ PolygonCollider2D:
       - {x: 0.19406958, y: -0.13781936}
       - {x: 0.21586429, y: 0.063298166}
       - {x: 0, y: 0.33974177}
+--- !u!114 &114055587040214116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1218774310492916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1259340416795fb44a0c54eb61f95269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animatorLabel: 
+  audioLabel: 
+  attacks: []
+  hitAnimationProportion: 0
+  cooldownTolerance: 0
+  cooldownCurr: 0
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 256
+  colliderPoints:
+  - {fileID: 4225893208521770}
+  colliderSizes:
+  - {x: 4, y: 4}
+  attackDamages: 02000000
+  manaUsage: 0
 --- !u!114 &114360629757038964
 MonoBehaviour:
   m_ObjectHideFlags: 1

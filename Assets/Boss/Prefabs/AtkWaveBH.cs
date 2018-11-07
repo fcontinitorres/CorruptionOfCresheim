@@ -6,6 +6,7 @@ public class AtkWaveBH : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        GetComponent<MeleeAttack>().Attack();
         Destroy(gameObject, 0.5f);
     }
 	
