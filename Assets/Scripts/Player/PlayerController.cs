@@ -96,7 +96,7 @@ public class PlayerController : Entity
         animator.SetFloat("MoveX", Mathf.Abs(rigidbody_2D.velocity.x));
 
         // Playing walking audio
-        if (rigidbody_2D.velocity.x != 0 && IsOnGround()) audioManager.Play("pl_ft_dirt");
+        if (Mathf.Abs(rigidbody_2D.velocity.x) >= 0.1 && IsOnGround()) audioManager.Play("pl_ft_dirt");
         else audioManager.Stop("pl_ft_dirt");
     }
 
