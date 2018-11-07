@@ -47,6 +47,6 @@ public class MenuScript : MonoBehaviour {
     }
 
     public void Resume() { gameIsPaused = false; }
-    public void Restart() { SceneManager.LoadScene("Main"); }
+    public void Restart() { SceneManager.LoadScene("Trainning Ground"); }
     public void Quit() { Application.Quit(); }
 }
