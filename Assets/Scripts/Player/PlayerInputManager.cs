@@ -116,7 +116,8 @@ public class PlayerInputManager : MonoBehaviour {
             else if (prevState.Buttons.RightShoulder == ButtonState.Released &&
                 currState.Buttons.RightShoulder == ButtonState.Pressed)
                 dash = 1;
-            else
+            else if (currState.Buttons.LeftShoulder == ButtonState.Released &&
+                currState.Buttons.RightShoulder == ButtonState.Released)
                 dash = 0;
 
             if (prevState.Buttons.X == ButtonState.Released &&
