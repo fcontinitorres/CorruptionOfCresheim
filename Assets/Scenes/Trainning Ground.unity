@@ -198,7 +198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &29754120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,11 +210,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dc850f06ee76cf47978d2931cae767e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popupPrefab: {fileID: 0}
   heartsUI: []
   heartSprites: []
+  healthDamageTextColor: []
+  healthHealTextColor: []
   health_max: 20
   manaUI: []
   manaSprites: []
+  manaUsageTextColors: []
+  manaRecoverTextColors: []
   mana_max: 0
   player: {fileID: 568656669}
   velocity: 2
@@ -1261,6 +1266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d08f91df3bd212f429df17f53ce2f364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popupPrefab: {fileID: 1695764259779372, guid: 9533e43ea7062ba4589c001dede1fdf1,
+    type: 2}
   heartsUI:
   - {fileID: 1848277043}
   - {fileID: 61446982}
@@ -1278,6 +1285,12 @@ MonoBehaviour:
   - {fileID: 21300014, guid: cabf62f34761dc249ad325e050f353b0, type: 3}
   - {fileID: 21300012, guid: cabf62f34761dc249ad325e050f353b0, type: 3}
   - {fileID: 21300010, guid: cabf62f34761dc249ad325e050f353b0, type: 3}
+  healthDamageTextColor:
+  - {r: 0.8396226, g: 0.1782218, b: 0.1782218, a: 0}
+  - {r: 0.509434, g: 0.06488074, b: 0.06488074, a: 0}
+  healthHealTextColor:
+  - {r: 0.35074258, g: 0.8584906, b: 0.31990921, a: 0}
+  - {r: 0.08460042, g: 0.7924528, b: 0.078497685, a: 0}
   health_max: 30
   manaUI:
   - {fileID: 928808741}
@@ -1292,6 +1305,12 @@ MonoBehaviour:
   - {fileID: 21300004, guid: 0c7db1ca8f8118b4cac6a974a271af40, type: 3}
   - {fileID: 21300002, guid: 0c7db1ca8f8118b4cac6a974a271af40, type: 3}
   - {fileID: 21300000, guid: 0c7db1ca8f8118b4cac6a974a271af40, type: 3}
+  manaUsageTextColors:
+  - {r: 0.59724116, g: 0.34069067, b: 0.8301887, a: 0}
+  - {r: 0.28707436, g: 0.11258457, b: 0.4339623, a: 0}
+  manaRecoverTextColors:
+  - {r: 0.3097188, g: 0.3211906, b: 0.754717, a: 0}
+  - {r: 0.11503203, g: 0.15972343, b: 0.5188679, a: 0}
   mana_max: 15
   moveSmoothing: 0.05
   humanForm: {fileID: 1858647845}
@@ -2358,11 +2377,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 764c1e7fcbaf58545a3c823524bdeddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popupPrefab: {fileID: 0}
   heartsUI: []
   heartSprites: []
+  healthDamageTextColor: []
+  healthHealTextColor: []
   health_max: 10
   manaUI: []
   manaSprites: []
+  manaUsageTextColors: []
+  manaRecoverTextColors: []
   mana_max: 0
 --- !u!212 &1056419602
 SpriteRenderer:
@@ -3187,15 +3211,6 @@ Tilemap:
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
       m_ColliderType: 1
-  - first: {x: -4, y: -1, z: 0}
-    second:
-      m_TileIndex: 10
-      m_TileSpriteIndex: 10
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_ObjectToInstantiate: {fileID: 0}
-      m_TileFlags: 1
-      m_ColliderType: 1
   - first: {x: -2, y: -1, z: 0}
     second:
       m_TileIndex: 9
@@ -3236,7 +3251,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 19d7a8099a60b41499239f8ee44c9f27, type: 2}
   - m_RefCount: 4
     m_Data: {fileID: 11400000, guid: 32bcf0bea0d3e3f4bb472d34745b119f, type: 2}
-  - m_RefCount: 3
+  - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 649b8482ddbd73c49b25a30c178fb639, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 0
@@ -3259,10 +3274,10 @@ Tilemap:
     m_Data: {fileID: 21300168, guid: 261212b977f594d5dbc48631a5c1295c, type: 3}
   - m_RefCount: 4
     m_Data: {fileID: 21300090, guid: 261212b977f594d5dbc48631a5c1295c, type: 3}
-  - m_RefCount: 3
+  - m_RefCount: 2
     m_Data: {fileID: 21300088, guid: 261212b977f594d5dbc48631a5c1295c, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 16
+  - m_RefCount: 15
     m_Data:
       e00: 1
       e01: 0
@@ -3281,7 +3296,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 16
+  - m_RefCount: 15
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}

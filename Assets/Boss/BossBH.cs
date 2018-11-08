@@ -60,8 +60,6 @@ public class BossBH : Entity {
 
         if (bossState == STATE.idel)
         {
-            Debug.Log("Boss idel state");
-
             //permiter boss atkar
             waveInstance = false;
             rockInstance = false;
@@ -77,7 +75,6 @@ public class BossBH : Entity {
         }
         else if(bossState == STATE.move)
         {
-            Debug.Log("Boss move state");
             //seguir player
             if (target.transform.position.x > this.transform.position.x)
                 direction = 1;
@@ -98,8 +95,6 @@ public class BossBH : Entity {
         }
         else if(bossState == STATE.atk)
         {
-            Debug.Log("Boss atk state");
-
             totalTime += Time.deltaTime;
 
             if(totalTime >= 0.45f && waveInstance == false)
@@ -117,7 +112,6 @@ public class BossBH : Entity {
         }
         else if(bossState == STATE.specialAtk)
         {
-            Debug.Log("Boss spcAtk state");
             totalTime += Time.deltaTime;
 
             if (totalTime >= 0.6f && rockInstance == false)
