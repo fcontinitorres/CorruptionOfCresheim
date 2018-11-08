@@ -198,7 +198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &29754120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,11 +210,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dc850f06ee76cf47978d2931cae767e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popupPrefab: {fileID: 0}
+  popupPrefab: {fileID: 1695764259779372, guid: 9533e43ea7062ba4589c001dede1fdf1,
+    type: 2}
   heartsUI: []
   heartSprites: []
-  healthDamageTextColor: []
-  healthHealTextColor: []
+  healthDamageTextColor:
+  - {r: 0.10862547, g: 0.3018868, b: 0.046991818, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  healthHealTextColor:
+  - {r: 0.12967247, g: 0.8867924, b: 0.3163235, a: 0}
+  - {r: 0.17888921, g: 0.5, b: 0.13915095, a: 0}
   health_max: 20
   manaUI: []
   manaSprites: []
