@@ -12,7 +12,7 @@ public class Entity : MonoBehaviour {
 
     // Max health and current health
     [SerializeField] private int health_max = 0;
-    private float health_curr = -1;
+    public float health_curr = -1;
 
     // UI components to draw the mana sprites
     public Image[] manaUI;
