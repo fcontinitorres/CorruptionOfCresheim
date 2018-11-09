@@ -22,14 +22,17 @@ public class BossBH : Entity {
     private float playerHeight;
     public GameObject rock;
     private bool rockInstance;
-    
-    
+
+    //boss HP
+    public GameObject healthBar;
 
     //tempo
     private float totalTime;
 
     //animacao
     private Animator anim;
+
+    private Vector3 bossScale;
 
     private STATE bossState;
     private enum STATE
@@ -53,10 +56,23 @@ public class BossBH : Entity {
         atkingTime = 0.65f;
         playerHeight = 6.5f;
 
+        bossScale = transform.localScale;
+
     }
 	
 	// Update is called once per frame
 	void Update () {
+
+        Vector3 v = new Vector3((health_curr/20f), 1f, 1f);
+        healthBar.transform.localScale = v;
+
+        if (target.transform.position.x > this.transform.position.x)
+            direction = 1; //direita
+        else
+            direction = -1; //esquerda
+
+        bossScale = new Vector3(direction * 2,2f,2f);
+        transform.localScale = bossScale;
 
         if (bossState == STATE.idel)
         {
@@ -69,6 +85,7 @@ public class BossBH : Entity {
             if (totalTime >= idelTime)
             {
                 anim.SetInteger("bossState", 1);
+                
                 bossState = STATE.move;
             }
                 
@@ -76,10 +93,6 @@ public class BossBH : Entity {
         else if(bossState == STATE.move)
         {
             //seguir player
-            if (target.transform.position.x > this.transform.position.x)
-                direction = 1;
-            else
-                direction = -1;
             this.transform.Translate(direction * velocity * Time.deltaTime, 0f, 0f);
 
             if (Mathf.Abs(this.transform.position.x - target.transform.position.x) < distAtk)
@@ -99,7 +112,8 @@ public class BossBH : Entity {
 
             if(totalTime >= 0.45f && waveInstance == false)
             {
-                Instantiate(wave, new Vector3(this.transform.position.x + 7f, this.transform.position.y, transform.position.z), wave.transform.rotation);
+                wave.transform.localScale = new Vector3(direction * 4, 8f, 1f);
+                Instantiate(wave, new Vector3( this.transform.position.x + (direction * 7f) , this.transform.position.y, transform.position.z), wave.transform.rotation);
                 waveInstance = true;
             }
 
@@ -127,6 +141,6 @@ public class BossBH : Entity {
                 bossState = STATE.idel;
             }
         }
-
     }
+
 }
