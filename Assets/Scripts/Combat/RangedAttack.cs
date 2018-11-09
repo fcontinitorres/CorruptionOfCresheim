@@ -14,7 +14,7 @@ public class RangedAttack : MonoBehaviour
     [SerializeField] private string audioLabel;
 
     //Animation clips of the attack, to get the duration of the attack
-    [SerializeField] private AnimationClip[] attacks;
+    [SerializeField] private AnimationClip[] attackAnimationClips;
     //Float to represent at what point of the current animation the attack will hit, eg: 0.5 means the attacks will hit in the middle of the animation
     [Range(0, 1)] [SerializeField] private float hitAnimationProportion;
     //Float to represent the time of input tolerance to continue the combo animation
@@ -56,7 +56,7 @@ public class RangedAttack : MonoBehaviour
             if (cooldownCurr == 0)
                 attackCount = 0;
             // Breaking the combo when there's no following attack
-            if (attacks.Length > 0 && attackCount >= attacks.Length)
+            if (attackAnimationClips.Length > 0 && attackCount >= attackAnimationClips.Length)
                 return;
 
             // Triggering animation
@@ -70,9 +70,9 @@ public class RangedAttack : MonoBehaviour
             StartCoroutine(DelayedShot(attackCount));
 
             // If has an attack animation
-            if (attacks.Length > 0) {
+            if (attackAnimationClips.Length > 0) {
                 // Setting current attack cooldown
-                cooldownCurr = attacks[attackCount].length;
+                cooldownCurr = attackAnimationClips[attackCount].length;
                 // Increasing attack combo
                 attackCount++;
             }
@@ -84,9 +84,9 @@ public class RangedAttack : MonoBehaviour
 
     IEnumerator DelayedShot(int attackCount) {
         // If has an attack animation
-        if (attacks.Length > 0) {
+        if (attackAnimationClips.Length > 0) {
             // Will wait the proportion time to hit
-            yield return new WaitForSeconds(attacks[attackCount].length * hitAnimationProportion);
+            yield return new WaitForSeconds(attackAnimationClips[attackCount].length * hitAnimationProportion);
         }
 
         if (entity) {

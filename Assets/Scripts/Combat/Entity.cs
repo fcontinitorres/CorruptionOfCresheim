@@ -5,19 +5,28 @@ using UnityEngine.UI;
 
 public class Entity : MonoBehaviour {
 
+    // Damage pop up text
+    [SerializeField] private GameObject popupPrefab;
+
     // UI components to draw the heart sprites
-    public Image[] heartsUI;
+    [SerializeField] private Image[] heartsUI;
     // Heart sprites
-    public Sprite[] heartSprites;
+    [SerializeField] private Sprite[] heartSprites;
+    // Text colors
+    [SerializeField] private Color[] healthDamageTextColor;
+    [SerializeField] private Color[] healthHealTextColor;
 
     // Max health and current health
     [SerializeField] private int health_max = 0;
     public float health_curr = -1;
 
     // UI components to draw the mana sprites
-    public Image[] manaUI;
+    [SerializeField] private Image[] manaUI;
     // Mana sprites
-    public Sprite[] manaSprites;
+    [SerializeField] private Sprite[] manaSprites;
+    // Text colors
+    [SerializeField] private Color[] manaUsageTextColors;
+    [SerializeField] private Color[] manaRecoverTextColors;
 
     // Max mana and current mana
     [SerializeField] private int mana_max = 0;
@@ -40,21 +49,24 @@ public class Entity : MonoBehaviour {
         health_max = health;
 
         UpdateHealth();
-
         if (health_curr == 0) Die();
     }
     public virtual void TakeDamage(int dmg) {
         // Taking damage, reducing to a minimum of zero
         if (dmg <= 0) return;
         health_curr = Mathf.Max(0, health_curr - dmg);
+
         UpdateHealth();
+        CreatePopUpText("" + dmg, healthDamageTextColor);
         if (health_curr == 0) Die();
     }
     public void HealDamage(int heal) {
         // Healing health
         if (heal <= 0) return;
         health_curr = Mathf.Min(health_max, health_curr + heal);
+
         UpdateHealth();
+        CreatePopUpText("" + heal, healthHealTextColor);
     }
 
     public int GetMana() { return mana_curr; }
@@ -73,12 +85,14 @@ public class Entity : MonoBehaviour {
         mana_curr = Mathf.Max(0, mana_curr - qtt);
 
         UpdateMana();
+        CreatePopUpText("" + qtt, manaUsageTextColors);
     }
     public void RecoverMana(int qtt) {
         if (qtt <= 0) return;
         mana_curr = Mathf.Min(mana_max, mana_curr + qtt);
 
         UpdateMana();
+        CreatePopUpText("" + qtt, manaRecoverTextColors);
     }
 
     void UpdateHealth() {
@@ -116,6 +130,13 @@ public class Entity : MonoBehaviour {
             }
             //Otherwise, it will disable that heart slot
             else manaUI[i].enabled = false;
+        }
+    }
+
+    private void CreatePopUpText(string text, Color[] colors) {
+        if (popupPrefab) {
+            GameObject popup = Instantiate(popupPrefab, transform.position, Quaternion.identity);
+            popup.GetComponent<PopUpText>().SetTextAndColor(text, colors[0], colors[1 % colors.Length]);
         }
     }
 

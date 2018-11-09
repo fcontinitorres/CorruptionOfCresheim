@@ -92,7 +92,6 @@ public class BossBH : Entity {
         }
         else if(bossState == STATE.move)
         {
-            
             //seguir player
             this.transform.Translate(direction * velocity * Time.deltaTime, 0f, 0f);
 
@@ -109,7 +108,6 @@ public class BossBH : Entity {
         }
         else if(bossState == STATE.atk)
         {
-
             totalTime += Time.deltaTime;
 
             if(totalTime >= 0.45f && waveInstance == false)
