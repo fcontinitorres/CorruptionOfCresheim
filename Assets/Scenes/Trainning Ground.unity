@@ -179,72 +179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9ae62d292d30824da6802f6f88f280c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &45610584
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 45610586}
-  - component: {fileID: 45610585}
-  m_Layer: 0
-  m_Name: tree
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &29754120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 29754119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dc850f06ee76cf47978d2931cae767e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  popupPrefab: {fileID: 1695764259779372, guid: 9533e43ea7062ba4589c001dede1fdf1,
-    type: 2}
-  heartsUI: []
-  heartSprites: []
-  healthDamageTextColor:
-  - {r: 0.10862547, g: 0.3018868, b: 0.046991818, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  healthHealTextColor:
-  - {r: 0.12967247, g: 0.8867924, b: 0.3163235, a: 0}
-  - {r: 0.17888921, g: 0.5, b: 0.13915095, a: 0}
-  health_max: 20
-  manaUI: []
-  manaSprites: []
-  manaUsageTextColors: []
-  manaRecoverTextColors: []
-  mana_max: 0
-  player: {fileID: 568656669}
-  velocity: 2
-  idelTime: 2
-  wave: {fileID: 1218774310492916, guid: 725771cef79ae254abbcb83a10be88dc, type: 2}
-  rock: {fileID: 1987624386133042, guid: 1a890e99324a1a548ac76654217ac4ba, type: 2}
---- !u!95 &29754121
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 29754119}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6355385021fd1da43b05c0d964f6af9f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &29754122
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -291,6 +225,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &45610584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 45610586}
+  - component: {fileID: 29754122}
+  m_Layer: 0
+  m_Name: tree
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &45610586
 Transform:
   m_ObjectHideFlags: 0
@@ -432,12 +382,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dc850f06ee76cf47978d2931cae767e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popupPrefab: {fileID: 1695764259779372, guid: 9533e43ea7062ba4589c001dede1fdf1,
+    type: 2}
   heartsUI: []
   heartSprites: []
+  healthDamageTextColor: []
+  healthHealTextColor: []
   health_max: 20
   health_curr: -1
   manaUI: []
   manaSprites: []
+  manaUsageTextColors: []
+  manaRecoverTextColors: []
   mana_max: 0
   player: {fileID: 568656669}
   velocity: 2
@@ -4474,7 +4430,7 @@ GameObject:
   - component: {fileID: 1714577041}
   - component: {fileID: 1714577042}
   - component: {fileID: 1714577044}
-  - component: {fileID: 1714577043}
+  - component: {fileID: 1717056324}
   m_Layer: 0
   m_Name: big-crate
   m_TagString: Untagged
@@ -4541,6 +4497,31 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1714577044
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1714577040}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2, y: 2}
+    newSize: {x: 2, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
 --- !u!1 &1717056322
 GameObject:
   m_ObjectHideFlags: 0
@@ -4549,8 +4530,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1717056323}
-  - component: {fileID: 1717056325}
-  - component: {fileID: 1717056324}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -4593,36 +4572,12 @@ MonoBehaviour:
   healthDamageTextColor: []
   healthHealTextColor: []
   health_max: 10
+  health_curr: -1
   manaUI: []
   manaSprites: []
   manaUsageTextColors: []
   manaRecoverTextColors: []
   mana_max: 0
---- !u!61 &1714577044
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1714577040}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2}
-    newSize: {x: 2, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2}
-  m_EdgeRadius: 0
 --- !u!1 &1813485685
 GameObject:
   m_ObjectHideFlags: 0
