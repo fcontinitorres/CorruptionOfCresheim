@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114055587040214116}
   - component: {fileID: 60429131359459560}
   - component: {fileID: 114360629757038964}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: bossAtkWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animatorLabel: 
   audioLabel: 
-  attacks: []
+  attackAnimationClips: []
   hitAnimationProportion: 0
   cooldownTolerance: 0
   cooldownCurr: 0

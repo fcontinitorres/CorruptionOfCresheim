@@ -23,9 +23,6 @@ public class BossBH : Entity {
     public GameObject rock;
     private bool rockInstance;
 
-    //boss HP
-    public GameObject healthBar;
-
     //tempo
     private float totalTime;
 
@@ -62,10 +59,6 @@ public class BossBH : Entity {
 	
 	// Update is called once per frame
 	void Update () {
-
-        Vector3 v = new Vector3((health_curr/20f), 1f, 1f);
-        healthBar.transform.localScale = v;
-
         if (target.transform.position.x > this.transform.position.x)
             direction = 1; //direita
         else
