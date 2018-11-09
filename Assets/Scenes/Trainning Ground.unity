@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 50424211}
   - component: {fileID: 50424210}
   - component: {fileID: 50424212}
+  - component: {fileID: 50424213}
   m_Layer: 10
   m_Name: Boss
   m_TagString: Untagged
@@ -445,6 +446,32 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.1983523, y: 2.7440605}
   m_EdgeRadius: 0
+--- !u!114 &50424213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 50424206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1259340416795fb44a0c54eb61f95269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animatorLabel: 
+  audioLabel: 
+  attackAnimationClips: []
+  hitAnimationProportion: 0
+  cooldownTolerance: 0
+  cooldownCurr: 0
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 256
+  colliderPoints:
+  - {fileID: 50424209}
+  colliderSizes:
+  - {x: 6.5, y: 4}
+  attackDamages: 02000000
+  manaUsage: 0
 --- !u!1 &61446980
 GameObject:
   m_ObjectHideFlags: 0
@@ -3692,7 +3719,7 @@ Tilemap:
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -15, y: -5, z: 0}
-  m_Size: {x: 33, y: 9, z: 1}
+  m_Size: {x: 38, y: 9, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:

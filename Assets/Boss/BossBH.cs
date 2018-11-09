@@ -103,8 +103,9 @@ public class BossBH : Entity {
         {
             totalTime += Time.deltaTime;
 
-            if(totalTime >= 0.45f && waveInstance == false)
+            if (totalTime >= 0.45f && waveInstance == false)
             {
+                GetComponent<MeleeAttack>().Attack();
                 wave.transform.localScale = new Vector3(direction * 4, 8f, 1f);
                 Instantiate(wave, new Vector3( this.transform.position.x + (direction * 7f) , this.transform.position.y, transform.position.z), wave.transform.rotation);
                 waveInstance = true;

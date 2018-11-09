@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4225893208521770}
   - component: {fileID: 212225018799515996}
-  - component: {fileID: 114055587040214116}
   - component: {fileID: 60429131359459560}
   - component: {fileID: 114360629757038964}
+  - component: {fileID: 114055587040214116}
   m_Layer: 9
   m_Name: bossAtkWave
   m_TagString: Untagged
@@ -38,7 +38,7 @@ Transform:
   m_GameObject: {fileID: 1218774310492916}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.24, y: 6.54, z: -2}
-  m_LocalScale: {x: 4, y: 8, z: 1}
+  m_LocalScale: {x: -4, y: 8, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
