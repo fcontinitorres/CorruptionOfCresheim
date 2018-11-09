@@ -18,7 +18,7 @@ public class Entity : MonoBehaviour {
 
     // Max health and current health
     [SerializeField] private int health_max = 0;
-    public float health_curr = -1;
+    [System.NonSerialized] public float health_curr = -1;
 
     // UI components to draw the mana sprites
     [SerializeField] private Image[] manaUI;
@@ -30,7 +30,7 @@ public class Entity : MonoBehaviour {
 
     // Max mana and current mana
     [SerializeField] private int mana_max = 0;
-    private int mana_curr = -1;
+    [System.NonSerialized] private int mana_curr = -1;
 
     protected virtual void Awake() {
         // Initiating variables
@@ -56,6 +56,7 @@ public class Entity : MonoBehaviour {
         if (dmg <= 0) return;
         health_curr = Mathf.Max(0, health_curr - dmg);
 
+        Debug.Log(this + " taking " + dmg + " damage");
         UpdateHealth();
         CreatePopUpText("" + dmg, healthDamageTextColor);
         if (health_curr == 0) Die();
@@ -101,7 +102,7 @@ public class Entity : MonoBehaviour {
 
         for (int i = 0; i < heartsUI.Length; i++) {
             //If the player has that heart slot
-            if ((float)health_max / heartSprites.Length >= i) {
+            if ((float)health_max / (heartSprites.Length - 1) > i) {
                 //It will enable it
                 heartsUI[i].enabled = true;
 
@@ -120,7 +121,7 @@ public class Entity : MonoBehaviour {
         for (int i = 0; i < manaUI.Length; i++)
         {
             //If the player has that heart slot
-            if ((float)mana_max / manaSprites.Length >= i)
+            if ((float)mana_max / (manaSprites.Length - 1) > i)
             {
                 //It will enable it
                 manaUI[i].enabled = true;
