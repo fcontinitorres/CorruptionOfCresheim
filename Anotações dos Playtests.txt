@@ -1,0 +1,11 @@
+DONE - Mostrar o dano
+Fazer o menu ser responsível ao controle
+Melhorar o boss, ataque melee muito rápido, ataque ranged aparece do nada
+Melhorar a scene, level design
+Mudar os ataques para receber colliders ao invés dos sizes
+Bug ao morrer no topo da tela
+Incorporar a história
+Método para recuperar mana
+Tutorial
+Música e mais sound effects
+Tela principal
